@@ -1,12 +1,27 @@
 ---
+
+- name: Install sudo
+  apt: name=sudo 
+       state=present
+
 - name: Ensure user exists
   user: name={{ srv_user }}
         state=present
         group={{ srv_user }}
         groups="sudo"
 
-- name: ensure ssh is allowed
+- name: Ensure ssh is allowed
   authorized_key: user={{ srv_user }} 
                   key={{ srv_key}} 
                   state=present
+
+- name: Configure sshd
+  template: src=sshd_config dest=/etc/ssh/sshd_config
+  tags: sshd
+  notify: restart sshd
+
+- name: Install iptables utilities
+  apt: name=iptables-persistent 
+       state=latest 
+       update_cache=yes
 
