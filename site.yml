@@ -1,0 +1,9 @@
+---
+# Everything to set up ETL
+
+- name: add user account
+  hosts: testhosts
+  remote_user: root
+
+  roles:
+    - common

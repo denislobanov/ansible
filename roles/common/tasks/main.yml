@@ -1,0 +1,12 @@
+---
+- name: Ensure user exists
+  user: name={{ srv_user }}
+        state=present
+        group={{ srv_user }}
+        groups="sudo"
+
+- name: ensure ssh is allowed
+  authorized_key: user={{ srv_user }} 
+                  key={{ srv_key}} 
+                  state=present
+
