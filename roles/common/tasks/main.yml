@@ -1,21 +1,21 @@
 ---
 
-- name: Install sudo
+- name: Installing sudo
   apt: name=sudo 
        state=present
 
-- name: Ensure user exists
+- name: Checking srv_user
   user: name={{ srv_user }}
         state=present
         group={{ srv_user }}
         groups="sudo"
 
-- name: Ensure ssh is allowed
+- name: Ensuring ssh is allowed
   authorized_key: user={{ srv_user }} 
                   key={{ srv_key}} 
                   state=present
 
-- name: Configure sshd
+- name: Configuring sshd
   template: src=sshd_config dest=/etc/ssh/sshd_config
   tags: sshd
   notify: restart sshd
@@ -24,4 +24,11 @@
   apt: name=iptables-persistent 
        state=latest 
        update_cache=yes
+
+- name: Configuring logrotate
+  copy: src=iptables.logrotate dest=/etc/logrotate.d/iptables
+
+- name: Copying iptables rules
+  copy: src=iptables.rules dest=/etc/iptables/rules.vp
+  notify: apply iptables
 
