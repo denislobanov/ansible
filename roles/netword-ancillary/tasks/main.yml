@@ -1,0 +1,30 @@
+---
+# Set up network ancillary server
+
+- name: Installing BIND9
+  apt: name=bind9
+       update_cache=yes
+       status=latest
+
+- name: Configuring BIND9
+  copy: src={{ item  }} dest=/etc/bind9/
+  with_items: {{ bind9_files }}
+  notify: restart bind9
+
+- name: Installing Nexus
+  unarchive: src={{ nexus_download_url }} dest=/opt/
+
+- name: Setting up work directory
+  command: creates="/srv/sonatype-work" {{ item }}
+  with_items:
+      - mkdir /srv
+      - mv /opt/sonatype-work/ /srv/
+      - ln -s /opt/{{ nexus_version }} /opt/nexus
+
+- name: Configuring Nexus
+  copy: src=nexus.properties dest=/opt/nexus/conf/
+
+- name: Copying init script
+  copy: src=nexus dest=/etc/init.d/
+  notify: start nexus
+

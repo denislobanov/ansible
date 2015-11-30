@@ -1,0 +1,8 @@
+---
+
+- name: restart bind9
+  service: name=bind9 state=restarted
+
+- name: start nexus
+  service: name=nexus state=started
+

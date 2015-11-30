@@ -1,0 +1,16 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+zone "internal.mindmaps.io" {
+	type master;
+	file "/etc/bind/db.internal.mindmaps.io";
+	forwarders { };
+	allow-query { internals; };
+	allow-transfer { internals; };
+	allow-update { key rndc-key; };
+};
