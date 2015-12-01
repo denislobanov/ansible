@@ -18,7 +18,7 @@
       - "rm /opt/nexus"
       - "rm -rf /opt/{{ nexus_version }}"
       - "rm -rf /opt/sonatype-work"
-      - "rm -rf /srv/sonatype-work"
+      - "rm -rf /srv/nexus"
   ignore_errors: yes
 
 - name: Installing Nexus
@@ -29,8 +29,8 @@
 - name: Setting up work directory
   command: "{{ item }}"
   with_items:
-      - "mv /opt/sonatype-work /srv/"
       - "ln -s /opt/{{ nexus_version }} /opt/nexus"
+      - "rm -rf /opt/sonatype-work"
 
 - name: Configuring Nexus
   copy: src=nexus.properties dest=/opt/nexus/conf/
@@ -43,7 +43,8 @@
 - name: Creating nexus user
   user: name=nexus
         group=nexus
-        shell=/bin/false
+        shell=/bin/bash
+        home=/srv/nexus
         system=yes
         state=present
 
@@ -51,5 +52,8 @@
   copy: src=nexus 
         dest=/etc/init.d/
         mode=0755
+
+- name: Updating rc.d
+  command: "update-rc.d nexus defaults"
   notify: start nexus
 
