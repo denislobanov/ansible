@@ -11,6 +11,7 @@
       - "lxc"
       - "libvirt-bin"
       - "bridge-utils"
+      - "jfsutils"
 
 - name: Setting up LVM physical volumes
   command: "pvcreate {{ lvm_pv }}"
@@ -22,6 +23,7 @@
 
 - name: Setting up LVM volumes
   lvol: lv={{ item }} 
+        vg=lxc
         size={{ lvm_size }}
         state=present
   with_items:
