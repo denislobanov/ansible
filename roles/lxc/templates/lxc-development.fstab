@@ -1,0 +1,9 @@
+none    /var/lib/lxc/development/rootfs/dev/pts    devpts    defaults    0 0
+none    /var/lib/lxc/development/rootfs/proc       proc      defaults    0 0
+none    /var/lib/lxc/development/rootfs/sys        sysfs     defaults    0 0
+none    /var/lib/lxc/development/rootfs/dev/shm    tmpfs     defaults    0 0
+
+/lib    /var/lib/lxc/development/rootfs/lib        none      ro,bind     0 0
+/bin    /var/lib/lxc/development/rootfs/bin        none      ro,bind     0 0
+/usr    /var/lib/lxc/development/rootfs/usr        none      ro,bind     0 0
+/sbin   /var/lib/lxc/development/rootfs/sbin       none      ro,bind     0 0

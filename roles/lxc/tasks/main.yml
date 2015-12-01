@@ -17,24 +17,47 @@
   ignore_errors: yes
 
 - name: Settung up LVM groups
-  lvg: vg=LXCVolume pvs={{ lvm_pv }}
+  lvg: vg=lxc pvs={{ lvm_pv }}
   ignore_errors: yes
 
-- name: Creating Development LVM Volume
-  lvol: vg=LXCVolume
-        lv=development
-        size={{ lxcd_size }}
+- name: Setting up LVM volumes
+  lvol: lv={{ item }} 
+        size={{ lvm_size }}
+        state=present
+  with_items:
+    - "{{ containers }}"
+
+- name: Creating file systems
+  filesystem: dev=/dev/lxc/{{ item }} fstype={{ containers_fs }}
+  with_items:
+    - "{{ containers }}"
+
+- name: Creating directories
+  command: "mkdir -p /var/lib/lxc/{{ item }}/rootfs"
+  with_items:
+    - "{{ containers }}"
   ignore_errors: yes
 
-- name: Creating Production LVM Volume
-  lvol: vg=LXCVolume
-        lv=production
-        size={{ lxcp_size }}
-  ignore_errors: yes
+- name: Mounting
+  mount: name=/var/lib/lxc/{{ item }}/rootfs src=/dev/lxc/{{ item }} 
 
-# - name: Creating mount points
-#  command: "mkdir /var/lib/lxc/production /var/lib/lxc/development"
-#  ignore_errors: yes
+- name: Copying config files
+  template: src=lxc-{{ item }}.conf dest=/var/lib/lxc/{{ item }}/config
+  with_items:
+    - "{{ containers }}"
 
-- name: Creating LXC containers
-  command: "lxc-create -n production -t debian -- -r jessie"
+- name: Copying fstab files
+  template: src=lxc-{{ item }}.conf dest=/var/lib/lxc/{{ item }}/config
+  with_items:
+    - "{{ containers }}"
+
+- name: Debootstrapping
+  command: "debootstrap jessie /var/lib/lxc/{{ item }}/rootfs"
+  with_items:
+    - "{{ containers }}"
+
+- name: Creating containers
+  command: "lxc-create -n {{ item }} -t debian -f /var/lib/lxc/{{ item }}/config -B lvm --vgname lxc --fstype {{ containers_fs }} --fssize {{ lvm_size }}"
+  with_items:
+    - "{{ containers }}"
+

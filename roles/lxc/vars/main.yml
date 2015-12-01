@@ -1,6 +1,10 @@
 ---
 
 lvm_pv: /dev/sda6
+lvm_size: 1G
 lxcd_size: 1G
 lxcp_size: 1G
-
+containers:
+  - "development"
+  - "production"
+containers_fs: jfs
