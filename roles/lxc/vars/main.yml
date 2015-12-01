@@ -1,0 +1,6 @@
+---
+
+lvm_pv: /dev/sda6
+lxcd_size: 1G
+lxcp_size: 1G
+

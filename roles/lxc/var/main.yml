@@ -1,6 +1,0 @@
----
-
-lvm_pv: /dev/md0
-lxc-development-size: 1G
-lxc-production-size: 1G
-
