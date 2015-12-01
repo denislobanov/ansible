@@ -1,0 +1,10 @@
+---
+# Network ancillary server setup
+
+- name: Ancillary server bringup
+  hosts: testhosts
+  remote_user: denis
+  sudo: yes
+
+  roles:
+      - network-ancillary

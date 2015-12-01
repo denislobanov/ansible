@@ -8,7 +8,8 @@
 
 - name: Configuring BIND9
   copy: src={{ item  }} dest=/etc/bind9/
-  with_items: {{ bind9_files }}
+  with_items: 
+      - "{{ bind9_files }}"
   notify: restart bind9
 
 - name: Installing Nexus

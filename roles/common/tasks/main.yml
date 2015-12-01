@@ -4,11 +4,17 @@
   apt: name=sudo 
        state=present
 
+- name: Checking srv_user group
+  group: name={{ srv_user }}
+         state=present
+         system=yes
+
 - name: Checking srv_user
   user: name={{ srv_user }}
         state=present
         group={{ srv_user }}
         groups="sudo"
+        system=yes
 
 - name: Ensuring ssh is allowed
   authorized_key: user={{ srv_user }} 
@@ -29,6 +35,6 @@
   copy: src=iptables.logrotate dest=/etc/logrotate.d/iptables
 
 - name: Copying iptables rules
-  copy: src=iptables.rules dest=/etc/iptables/rules.vp
+  template: src=iptables.rules dest=/etc/iptables/rules.vp
   notify: apply iptables
 

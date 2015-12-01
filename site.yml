@@ -1,5 +1,5 @@
 ---
-# Everything to set up ETL
+# Common setup for all servers
 
 - name: add user account
   hosts: testhosts
