@@ -11,10 +11,20 @@
 
 - name: Checking srv_user
   user: name={{ srv_user }}
+        password={{ srv_pass }}
         state=present
         group={{ srv_user }}
         groups="sudo"
         system=yes
+
+- name: Installing helpful utilities
+  apt: name={{ item }} state=present
+  with_items:
+      - "zsh"
+      - "htop"
+      - "tree"
+      - "ranger"
+      - "vim"
 
 - name: Ensuring ssh is allowed
   authorized_key: user={{ srv_user }} 

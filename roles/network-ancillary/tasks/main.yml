@@ -4,7 +4,7 @@
 - name: Installing BIND9
   apt: name=bind9
        update_cache=yes
-       status=latest
+       state=latest
 
 - name: Configuring BIND9
   copy: src={{ item  }} dest=/etc/bind9/
@@ -13,7 +13,9 @@
   notify: restart bind9
 
 - name: Installing Nexus
-  unarchive: src={{ nexus_download_url }} dest=/opt/
+  unarchive: src={{ nexus_download_url }}
+             dest=/opt/
+             copy=no
 
 - name: Setting up work directory
   command: creates="/srv/sonatype-work" {{ item }}
