@@ -12,22 +12,44 @@
       - "{{ bind9_files }}"
   notify: restart bind9
 
+- name: Removing previous install
+  command: "{{ item }}"
+  with_items:
+      - "rm /opt/nexus"
+      - "rm -rf /opt/{{ nexus_version }}"
+      - "rm -rf /opt/sonatype-work"
+      - "rm -rf /srv/sonatype-work"
+  ignore_errors: yes
+
 - name: Installing Nexus
   unarchive: src={{ nexus_download_url }}
              dest=/opt/
-             copy=no
+             copy=yes
 
 - name: Setting up work directory
-  command: creates="/srv/sonatype-work" {{ item }}
+  command: "{{ item }}"
   with_items:
-      - mkdir /srv
-      - mv /opt/sonatype-work/ /srv/
-      - ln -s /opt/{{ nexus_version }} /opt/nexus
+      - "mv /opt/sonatype-work /srv/"
+      - "ln -s /opt/{{ nexus_version }} /opt/nexus"
 
 - name: Configuring Nexus
   copy: src=nexus.properties dest=/opt/nexus/conf/
 
+- name: Creating nexus user group
+  group: name=nexus
+         system=yes
+         state=present
+
+- name: Creating nexus user
+  user: name=nexus
+        group=nexus
+        shell=/bin/false
+        system=yes
+        state=present
+
 - name: Copying init script
-  copy: src=nexus dest=/etc/init.d/
+  copy: src=nexus 
+        dest=/etc/init.d/
+        mode=0755
   notify: start nexus
 
