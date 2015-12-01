@@ -1,0 +1,10 @@
+---
+# Set up LXC on LVM
+
+- name: LXC on LVM
+  hosts: testhosts
+  remote_user: denis
+  sudo: yes
+
+  roles:
+      - lxc

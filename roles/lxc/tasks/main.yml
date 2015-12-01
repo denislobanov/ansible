@@ -1,0 +1,66 @@
+---
+# Set up LVM and LXC
+
+- name: Setting up LVM physical volumes
+  command: "pvcreate {{ lvm_pv }}"
+
+- name: Settung up LVM groups
+  lvg: vg=LXCVolume pvs={{ lvm_pv }}
+
+- name: Creating Development LVM Volume
+  lvol: vg=LXCVolume
+        lv=development
+        size={{ lxc-development-size }}
+
+- name: Creating Production LVM Volume
+  lvol: vg=LXCVolume
+        lv=production
+        size={{ lxc-production-size }}
+
+#- name: Setting up file systems
+#  filesystem: fstype=ext4 dev=/dev/LXCVolume/development
+#  filesystem: fstype=ext4 dev=/dev/LXCVolume/production
+#
+#- name: Creating mount points
+#  command: "mkdir /var/lib/lxc/{production, development}"
+#  ignore_errors: yes
+#
+#- name: Creating fstab entries 
+#  mount: name=/var/lib/lxc/production src=/dev/LXCVolume/production state=present
+#  mount: name=/var/lib/lxc/development src=/dev/LXCVolume/development state=present
+#
+#- name: Mounting
+#  mount: name=/var/lib/lxc/production src=/dev/LXCVolume/production state=mounted
+#  mount: name=/var/lib/lxc/development src=/dev/LXCVolume/development state=mounted
+
+- name: Installing LXC
+  apt: name=lxc
+       update_cache=true
+       state=latest
+
+- name: Creating development container
+  lxc_container:
+    name: development
+    backing_store: lvm
+    lv_name: development
+    vg_name: LXCVolume
+    container_log: false
+    template: debian
+    template:option: --release jessie
+    fs_type: ext4
+    fs_size: {{ lxc-development-size }}
+    state: started
+
+- name: Creating production container
+  lxc_container:
+    name: production 
+    backing_store: lvm
+    lv_name: production
+    vg_name: LXCVolume
+    container_log: false
+    template: debian
+    template:option: --release jessie
+    fs_type: ext4
+    fs_size: {{ lxc-production-size }}
+    state: started
+
