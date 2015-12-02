@@ -11,8 +11,6 @@
       - "lxc"
       - "libvirt-bin"
       - "bridge-utils"
-      - "jfsutils"
-      - "haveged"
 
 - include: bcache.yml
 - include: lvm.yml

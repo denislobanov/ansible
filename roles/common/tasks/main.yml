@@ -57,3 +57,6 @@
     - "autotools-dev"
     - "autoconf"
     - "git"
+    - "haveged"
+    - "jfsutils"
+
