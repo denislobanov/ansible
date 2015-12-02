@@ -13,9 +13,15 @@
        update_cache=yes
        state=latest
 
+- name: Checking for existing bcache devices
+  stat: path=/dev/bcache0
+  register: bcache_dev
+
 - name: Creating bcahe device
   command: "make-bcache -B {{ bcache_backing }} --block 4k --bucket 2M -C {{ bcache_cache }}"
+  when: bcache_dev.stat.exists == false
 
 - name: Setting cache mode
   command: "echo writeback > /sys/block/bcache0/bcache/cache_mode"
+  when: bcache_dev.stat.exists == false
 
