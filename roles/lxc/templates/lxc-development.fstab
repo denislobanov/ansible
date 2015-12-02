@@ -1,4 +1,4 @@
-/lib    /var/lib/lxc/development/rootfs/lib        none      ro,bind     0 0
-/bin    /var/lib/lxc/development/rootfs/bin        none      ro,bind     0 0
-/usr    /var/lib/lxc/development/rootfs/usr        none      ro,bind     0 0
-/sbin   /var/lib/lxc/development/rootfs/sbin       none      ro,bind     0 0
+/lib    /lib        none      ro,bind     0 0
+/bin    /bin        none      ro,bind     0 0
+/usr    /usr        none      ro,bind     0 0
+/sbin   /sbin       none      ro,bind     0 0

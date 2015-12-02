@@ -58,13 +58,25 @@
   with_items:
     - "{{ containers }}"
 
+- name: Checking for previous debootstrap
+  stat: path=/var/lib/lxc/{{ item }}/rootfs/lib/init/init-d-script
+  with_items:
+    - "{{ containers }}"
+  register: past_deboot
+
+- name: Creating containers
+  command: "lxc-create -n {{ item.item }} -t /usr/share/lxc/templates/lxc-debian"
+  when: item.stat.exists == false
+  with_items:
+    - "{{ past_deboot.results }}"
+
 - name: Copying config files
   template: src=lxc-{{ item }}.conf dest=/var/lib/lxc/{{ item }}/config
   with_items:
     - "{{ containers }}"
 
 - name: Copying fstab files
-  template: src=lxc-{{ item }}.fstab dest=/var/lib/lxc/{{ item }}/fstab
+  template: src=lxc.fstab dest=/var/lib/lxc/{{ item }}/fstab
   with_items:
     - "{{ containers }}"
 
@@ -74,18 +86,6 @@
             mode=0755
   with_items:
     - "{{ containers }}"
-
-- name: Checking for previous debootstrap
-  stat: path=/var/lib/lxc/{{ item }}/rootfs/lib/init/init-d-script
-  with_items:
-    - "{{ containers }}"
-  register: past_deboot
-
-- name: Debootstrapping
-  command: "debootstrap jessie /var/lib/lxc/{{ item.item }}/rootfs"
-  when: item.stat.exists == false
-  with_items:
-    - "{{ past_deboot.results }}"
 
 - name: Symlinking systemd-udevd.service 
   file: src=/dev/null 
