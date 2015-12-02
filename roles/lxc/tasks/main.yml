@@ -12,6 +12,7 @@
       - "libvirt-bin"
       - "bridge-utils"
       - "jfsutils"
+      - "haveged"
 
 - name: Setting up LVM physical volumes
   command: "pvcreate {{ lvm_pv }}"
@@ -30,18 +31,32 @@
     - "{{ containers }}"
 
 - name: Creating file systems
-  filesystem: dev=/dev/lxc/{{ item }} fstype={{ containers_fs }}
+  filesystem: dev=/dev/lxc/{{ item }}
+              fstype={{ containers_fs }}
+              opts={{ containers_fs_opts }}
   with_items:
     - "{{ containers }}"
 
 - name: Creating directories
-  command: "mkdir -p /var/lib/lxc/{{ item }}/rootfs"
+  file: path=/var/lib/lxc/{{ item }}/rootfs state=directory
   with_items:
     - "{{ containers }}"
-  ignore_errors: yes
+
+- name: Creating fstab entries
+  mount: name=/var/lib/lxc/{{ item }}/rootfs 
+         src=/dev/lxc/{{ item }} 
+         fstype={{ containers_fs }}
+         state=present
+  with_items:
+    - "{{ containers }}"
 
 - name: Mounting
-  mount: name=/var/lib/lxc/{{ item }}/rootfs src=/dev/lxc/{{ item }} 
+  mount: name=/var/lib/lxc/{{ item }}/rootfs 
+         src=/dev/lxc/{{ item }} 
+         fstype={{ containers_fs }}
+         state=mounted
+  with_items:
+    - "{{ containers }}"
 
 - name: Copying config files
   template: src=lxc-{{ item }}.conf dest=/var/lib/lxc/{{ item }}/config
@@ -49,17 +64,27 @@
     - "{{ containers }}"
 
 - name: Copying fstab files
-  template: src=lxc-{{ item }}.conf dest=/var/lib/lxc/{{ item }}/config
+  template: src=lxc-{{ item }}.fstab dest=/var/lib/lxc/{{ item }}/fstab
   with_items:
     - "{{ containers }}"
+
+- name: Checking for previous debootstrap
+  stat: path=/var/lib/lxc/{{ item }}/rootfs/lib/init/init-d-script
+  with_items:
+    - "{{ containers }}"
+  register: past_deboot
 
 - name: Debootstrapping
-  command: "debootstrap jessie /var/lib/lxc/{{ item }}/rootfs"
+  command: "debootstrap jessie /var/lib/lxc/{{ item.item }}/rootfs"
+  when: item.stat.exists == false
+  with_items:
+    - "{{ past_deboot.results }}"
+
+- name: Creating containers
+  command: "lxc-create -n {{ item }} -f /var/lib/lxc/{{ item }}/config -B lvm --vgname lxc --fstype {{ containers_fs }} --fssize {{ lvm_size }}"
+  when:
+    stat: path=/var/lib/lxc/{{ item }}/rootfs/sys/kernel
   with_items:
     - "{{ containers }}"
 
-- name: Creating containers
-  command: "lxc-create -n {{ item }} -t debian -f /var/lib/lxc/{{ item }}/config -B lvm --vgname lxc --fstype {{ containers_fs }} --fssize {{ lvm_size }}"
-  with_items:
-    - "{{ containers }}"
 
