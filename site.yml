@@ -1,6 +1,13 @@
 ---
 # Production run
 
+- name: Common Server Bringup
+  hosts: holloway
+  remote_user: root
+
+  roles:
+    - common
+
 - include: ancillary.yml
 - include: contaniers.yml
 

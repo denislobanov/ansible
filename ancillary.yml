@@ -4,6 +4,8 @@
 - name: Deploy Nexus & DNS
   hosts: ancillary-servers
   remote_user: denis
-    - common
+  sudo: yes
+
+  roles:
     - network-ancillary
 

@@ -4,6 +4,8 @@
 - name: Deploy Containers
   hosts: container-servers
   remote_user: denis
-    - common
+  sudo: yes
+
+  roles:
     - lxc
 
