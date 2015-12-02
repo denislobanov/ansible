@@ -11,21 +11,18 @@ iface eth0 inet dhcp
 
 
 ## LXC bridge interfaces
-# git
 auto br0
 iface br0 inet static
     address 10.10.20.254
     netmask 255.255.255.0
     bridge_ports none
 
-# taskd
 auto br1
 iface br1 inet static
     address 10.10.30.254
     netmask 255.255.255.0
     bridge_ports none
 
-# mht
 auto br2
 iface br2 inet static
     address 10.10.50.254
