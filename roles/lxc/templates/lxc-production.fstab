@@ -1,4 +1,0 @@
-/lib    /var/lib/lxc/production/rootfs/lib        none      ro,bind     0 0
-/bin    /var/lib/lxc/production/rootfs/bin        none      ro,bind     0 0
-/usr    /var/lib/lxc/production/rootfs/usr        none      ro,bind     0 0
-/sbin   /var/lib/lxc/production/rootfs/sbin       none      ro,bind     0 0

@@ -1,7 +1,9 @@
 ---
 
-lvm_pv: /dev/sda6
-lvm_size: 1G
+bcache_backing: /dev/disk/by-partlabel/testmd
+bcache_cache: /dev/disk/by-partlabel/bcache
+lvm_pv: /dev/bcache0
+lvm_size: 400M
 containers_fs: jfs
 containers_fs_opts: "-q"
 containers:

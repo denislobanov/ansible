@@ -1,0 +1,21 @@
+---
+# Sets up bcache for raid
+
+- name: Adding bcache-tools ppa
+  copy: src=bcache-tools.list 
+        dest=/etc/apt/sources.list.d/bcache-tools.list
+
+- name: Adding repository key
+  command: "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4BBE1367"
+
+- name: Installing bcache-tools
+  apt: name=bcache-tools
+       update_cache=yes
+       state=latest
+
+- name: Creating bcahe device
+  command: "make-bcache -B {{ bcache_backing }} --block 4k --bucket 2M -C {{ bcache_cache }}"
+
+- name: Setting cache mode
+  command: "echo writeback > /sys/block/bcache0/bcache/cache_mode"
+

@@ -25,6 +25,7 @@
     - "tree"
     - "ranger"
     - "vim"
+    - "tmux"
 
 - name: Ensuring ssh is allowed
   authorized_key: user={{ srv_user }} 
