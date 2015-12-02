@@ -1,10 +1,9 @@
 ---
 # Network ancillary server setup
 
-- name: Ancillary server bringup
-  hosts: testhosts
+- name: Deploy Nexus & DNS
+  hosts: ancillary-servers
   remote_user: denis
-  sudo: yes
+    - common
+    - network-ancillary
 
-  roles:
-      - network-ancillary

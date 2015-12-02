@@ -1,9 +1,9 @@
 ---
 
-bcache_backing: /dev/disk/by-partlabel/testmd
+bcache_backing: /dev/md0
 bcache_cache: /dev/disk/by-partlabel/bcache
 lvm_pv: /dev/bcache0
-lvm_size: 400M
+lvm_size: 2T
 containers_fs: jfs
 containers_fs_opts: "-q"
 containers:

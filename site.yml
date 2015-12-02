@@ -1,9 +1,6 @@
 ---
-# Common setup for all servers
+# Production run
 
-- name: add user account
-  hosts: testhosts
-  remote_user: root
+- include: ancillary.yml
+- include: contaniers.yml
 
-  roles:
-    - common

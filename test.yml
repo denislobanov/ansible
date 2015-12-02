@@ -1,0 +1,12 @@
+---
+# Test all roles
+
+- name: Test all roles
+  hosts: testhosts
+  remote_user: root
+  roles:
+    - common
+    - network-ancillary
+    - lxc
+
+

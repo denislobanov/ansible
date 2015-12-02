@@ -1,0 +1,9 @@
+---
+# Set up system for containers
+
+- name: Deploy Containers
+  hosts: container-servers
+  remote_user: denis
+    - common
+    - lxc
+
