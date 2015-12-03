@@ -26,14 +26,12 @@
              dest=/opt/
              copy=yes
 
-- name: Setting up work directory
-  command: "{{ item }}"
-  with_items:
-      - "ln -s /opt/{{ nexus_version }} /opt/nexus"
-      - "rm -rf /opt/sonatype-work"
+- name: Cleaning up
+  file: path=/opt/sonatype-work
+        state=absent
 
 - name: Configuring Nexus
-  copy: src=nexus.properties dest=/opt/nexus/conf/
+  copy: src=nexus.properties dest=/opt/{{ nexus_version }}/conf/
 
 - name: Creating nexus user group
   group: name=nexus
@@ -48,14 +46,20 @@
         system=yes
         state=present
 
-- name: Fixing permissions
+- name: Setting up working environment
   file: path={{ item }}
         owner=nexus
         group=nexus
+        state=directory
   with_items:
-    - "/opt/{{ nexus_version }}"
-    - "/opt/nexus"
     - "/srv/nexus"
+    - "/opt/{{ nexus_version }}"
+
+- name: Creating /opt/nexus symlink
+  file: src=/opt/{{ nexus_version }} dest=/opt/nexus
+        owner=nexus
+        group=nexus
+        state=link
 
 - name: Copying init script
   copy: src=nexus 
