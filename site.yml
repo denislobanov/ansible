@@ -3,7 +3,8 @@
 
 - name: Common Server Bringup
   hosts: holloway
-  remote_user: root
+  remote_user: denis
+  sudo: yes
 
   roles:
     - common

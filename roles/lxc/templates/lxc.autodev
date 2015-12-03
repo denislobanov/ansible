@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /var/lib/lxc/production/rootfs/dev
+cd /var/lib/lxc/CONTAINER/rootfs/dev
 mkdir net
 mknod net/tun c 10 200
 chmod 0666 net/tun

@@ -3,11 +3,13 @@
 bcache_backing: /dev/md0
 bcache_cache: /dev/disk/by-partlabel/bcache
 lvm_pv: /dev/bcache0
-lvm_size: 2T
+lvm_size: 1T
 containers_fs: jfs
 containers_fs_opts: "-q"
 containers:
-  - "development"
-  - "production"
+  - "etl_development"
+  - "etl_production"
+  - "ml_development"
+  - "ml_production"
 wipe_bcache: false
 

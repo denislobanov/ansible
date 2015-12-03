@@ -12,6 +12,7 @@
   when: item.stat.exists == false
   with_items:
     - "{{ past_deboot.results }}"
+  poll: 10
 
 - name: Fixing root passwords
   copy: src=lxc.shadow dest=/var/lib/lxc/{{ item }}/rootfs/etc/shadow
@@ -19,7 +20,14 @@
     - "{{ containers }}"
 
 - name: Copying config files
-  template: src=lxc-{{ item }}.conf dest=/var/lib/lxc/{{ item }}/config
+  template: src=lxc.config dest=/var/lib/lxc/{{ item }}/config
+  with_items:
+    - "{{ containers }}"
+
+- name: Patching config files
+  lineinfile: dest=/var/lib/lxc/{{ item }}/config
+              regexp="CONTAINER"
+              line=CONTAINER={{ item }}
   with_items:
     - "{{ containers }}"
 
@@ -29,9 +37,16 @@
     - "{{ containers }}"
 
 - name: Copying autodev files
-  template: src=lxc-{{ item }}.autodev 
+  template: src=lxc.autodev 
             dest=/var/lib/lxc/{{ item }}/autodev
             mode=0755
+  with_items:
+    - "{{ containers }}"
+
+- name: Patching autogev files
+  lineinfile: dest=/var/lib/lxc/{{ item }}/autodev
+              regexp="CONTAINER"
+              line=CONTAINER={{ item }}
   with_items:
     - "{{ containers }}"
 

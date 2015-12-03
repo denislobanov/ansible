@@ -2,7 +2,8 @@
 
 - name: Installing sudo
   apt: name=sudo 
-       state=present
+       state=latest
+       update_cache=yes
 
 - name: Checking srv_user group
   group: name={{ srv_user }}
@@ -52,11 +53,33 @@
 - name: Installing common dependencies
   apt: name={{ item }} state=present
   with_items:
-    - "default-jre-headless"
+    - "java-package"
     - "make"
     - "autotools-dev"
     - "autoconf"
     - "git"
     - "haveged"
     - "jfsutils"
+
+- name: Removing default-jre-headless
+  apt: name=default-jre-headless state=absent
+
+- name: Adding Java8 PPA
+  copy: src=java8.list dest=/etc/apt/sources.list.d/java8.list
+
+- name: Adding PPA key
+  command: "apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886"
+
+- name: accept Oracle license
+  shell: "echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections"
+  changed_when: no
+
+- name: Installing Java8
+  apt: name=oracle-java8-installer 
+       update_cache=yes
+       state=latest
+
+- name: Set default Java version
+  apt: name="oracle-java8-set-default"
+       state=latest
 

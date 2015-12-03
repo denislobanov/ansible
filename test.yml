@@ -1,9 +1,16 @@
 ---
 # Test all roles
 
-- name: Test common bringup
+#- name: Test common bringup
+#  hosts: localvms
+#  remote_user: root
+#  roles:
+#    - common
+
+- name: Update common
   hosts: localvms
-  remote_user: root
+  remote_user: denis
+  sudo: yes
   roles:
     - common
 

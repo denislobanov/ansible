@@ -6,22 +6,44 @@
         dest=/etc/apt/sources.list.d/bcache-tools.list
 
 - name: Adding repository key
-  command: "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4BBE1367"
+  command: "apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4BBE1367"
 
 - name: Installing bcache-tools
   apt: name=bcache-tools
        update_cache=yes
        state=latest
 
+- name: Wiping cache device
+  command: "wipefs {{ bcache_cache }}"
+  when: wipe_bcache == true
+
+- name: Wiping cache device af
+  command: "wipefs -af {{ bcache_cache }}"
+  when: wipe_bcache == true
+
+- name: Wiping backing device
+  command: "wipefs {{ bcache_backing }}"
+  when: wipe_bcache == true
+
+- name: Wiping backing device af
+  command: "wipefs -af {{ bcache_backing }}"
+  when: wipe_bcache == true
+
 - name: Checking for existing bcache devices
   stat: path=/dev/bcache0
   register: bcache_dev
 
-- name: Creating bcahe device
+- name: Creating bcache device
   command: "make-bcache -B {{ bcache_backing }} --block 4k --bucket 2M -C {{ bcache_cache }}"
   when: bcache_dev.stat.exists == false
 
 - name: Setting cache mode
   command: "echo writeback > /sys/block/bcache0/bcache/cache_mode"
   when: bcache_dev.stat.exists == false
+
+- name: Registering caching device
+  command: "echo {{ bcache_cache }} > /sys/fs/bcache/register"
+
+- name: Registering backing device
+  command: "echo {{ bcache_backing }} > /sys/fs/bcache/register"
 

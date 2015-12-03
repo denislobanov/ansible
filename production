@@ -4,7 +4,7 @@
 10.10.10.100
 
 [etl-servers]
-10.10.20.100
+10.10.20.101
 
 [web-servers]
 10.10.10.101
@@ -24,4 +24,5 @@ ancillary-servers
 [container-servers:children]
 core-servers
 etl-servers
+web-servers
 
