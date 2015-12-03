@@ -7,7 +7,7 @@
        state=latest
 
 - name: Configuring BIND9
-  copy: src={{ item  }} dest=/etc/bind9/
+  copy: src={{ item  }} dest=/etc/bind/
   with_items: 
       - "{{ bind9_files }}"
   notify: restart bind9
@@ -47,6 +47,15 @@
         home=/srv/nexus
         system=yes
         state=present
+
+- name: Fixing permissions
+  file: path={{ item }}
+        owner=nexus
+        group=nexus
+  with_items:
+    - "/opt/{{ nexus_version }}"
+    - "/opt/nexus"
+    - "/srv/nexus"
 
 - name: Copying init script
   copy: src=nexus 
