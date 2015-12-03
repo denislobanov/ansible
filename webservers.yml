@@ -1,0 +1,11 @@
+---
+# Moogi & Moogi analytics
+
+- name: Deploying Moogi
+  hosts: web-servers
+  remote_user: denis
+  sudo: yes
+
+  roles:
+    - { role: webserver } 
+
