@@ -8,3 +8,4 @@ containers_fs: jfs
 containers_fs_opts: "-q"
 containers:
   - "development"
+wipe_bcache: false

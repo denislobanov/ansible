@@ -1,5 +1,6 @@
 ---
 # Set up web server for Moogi
+- include_vars: db.yml
 
 - name: Installing Dependencies
   apt: name={{ item }}
@@ -10,23 +11,20 @@
     - "postgresql-client"
     - "tomcat8"
     - "tomcat8-common"
+    - "python-psycopg2"
+  notify: restart postgres
 
 - name: Setting up default postgres user
-  postgresql_user: db=postgresql
+  postgresql_user: db=postgres
                    name=postgres
                    password={{ postgres_pw }}
                    encrypted=true
                    state=present
-
-- name: Adding Moogi user
-  postgresql_user: name=moogi
-                   password={{ moogi_pw }}
-                   encrypted=true
-                   state=present
-
+  
 - name: Adding Moogi DB
   postgresql_db: name=moogi
-                 login_user=moogi
                  owner=moogi
+                 login_user=moogi
+                 login_password={{ moogi_pw }}
                  state=present
 

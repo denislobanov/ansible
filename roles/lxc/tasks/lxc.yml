@@ -78,3 +78,14 @@
   with_items:
     - "{{ containers }}"
 
+- name: Configuring host interfaces
+  template: src=interfaces dest=/etc/network/interfaces
+
+- name: Configuring host forwarding
+  copy: src=sysctl.conf dest=/etc/sysctl.conf
+
+- name: Updating iptables
+  template: src=iptables.rules dest=/etc/iptables/rules.vp
+  notify: apply iptables
+
+

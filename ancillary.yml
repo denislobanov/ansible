@@ -2,8 +2,7 @@
 # Network ancillary server setup
 
 - name: Deploy Nexus & DNS
-#  hosts: ancillary-servers
-  hosts: localvms
+  hosts: ancillary-servers
   remote_user: denis
   sudo: yes
 
