@@ -19,16 +19,8 @@
   with_items:
     - "{{ containers }}"
 
-- name: Copying config files
-  template: src=lxc.config dest=/var/lib/lxc/{{ item }}/config
-  with_items:
-    - "{{ containers }}"
-
-- name: Patching config files
-  lineinfile: dest=/var/lib/lxc/{{ item }}/config
-              regexp="CONTAINER"
-              line=CONTAINER={{ item }}
-  with_items:
+- include: config_lxc.yml cid={{ item.0 }} cname={{ item.1 }}
+  with_indexed_items:
     - "{{ containers }}"
 
 - name: Copying fstab files
@@ -79,13 +71,13 @@
     - "{{ containers }}"
 
 - name: Configuring host interfaces
-  template: src=interfaces dest=/etc/network/interfaces
+  template: src=interfaces.j2 dest=/etc/network/interfaces
 
 - name: Configuring host forwarding
   copy: src=sysctl.conf dest=/etc/sysctl.conf
 
 - name: Updating iptables
-  template: src=iptables.rules dest=/etc/iptables/rules.v4
+  template: src=iptables.j2 dest=/etc/iptables/rules.v4
   notify: apply iptables
 
 

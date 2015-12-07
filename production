@@ -26,3 +26,15 @@ core-servers
 etl-servers
 web-servers
 
+[etl-dlxc]
+10.10.20.101:2022
+
+[etl-plxc]
+10.10.20.101:2023
+
+[ml-dlxc]
+10.10.20.101:2024
+
+[ml-plxc]
+10.10.20.101:2025
+

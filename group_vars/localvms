@@ -1,11 +1,18 @@
 ---
 
-bcache_backing: /dev/disk/by-partlabel/testmd
-bcache_cache: /dev/disk/by-partlabel/bcache
+bcache_cache: /dev/sda7
+bcache_backing: /dev/sda8
 lvm_pv: /dev/bcache0
-lvm_size: 400M
-containers_fs: jfs
-containers_fs_opts: "-qf"
+lvm_size: 1G
+containers_fs: ext2
+containers_fs_opts: ""
 containers:
   - "development"
 wipe_bcache: false
+deploy_etl: true
+deploy_ml: true
+etl_branch: "master"
+ml_branch: "master"
+etl_clone_dest: /home/denis
+ml_clone_dest: /home/denis
+

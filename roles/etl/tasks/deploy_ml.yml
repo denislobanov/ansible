@@ -1,7 +1,6 @@
 ---
 # Initial rollout is needed to configure dependencies
-
-- include_vars: deploy.yml
+- include_vars: repositories.yml
 
   # Install Dependencies
 - include: spark.yml
@@ -12,7 +11,7 @@
 
 - name: Cloning ML repository
   git: repo={{ ml_repository_url }}
-       dest={{ ml_clone_dir }}
+       dest={{ ml_clone_dest }}
        clone=yes
        version={{ ml_branch }}
   when: deploy_ml == true

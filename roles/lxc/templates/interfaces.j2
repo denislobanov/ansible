@@ -10,8 +10,10 @@ allow-hotplug eth0
 iface eth0 inet dhcp
 
 ## LXC bridge interfaces
-auto br0
-iface br0 inet static
-    address 127.16.0.1
+{% for c in containers %}
+auto br{{ loop.index0 }}
+iface br{{ loop.index0 }} inet static
+    address 127.16.0.1{{ loop.index0 }}
     netmask 255.255.255.248
     bridge_ports none
+{% endfor %}

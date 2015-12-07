@@ -1,8 +1,8 @@
 # Template used to create this container: /usr/share/lxc/templates/lxc-debian
 # Parameters passed to the template:
 # For additional config options, please look at lxc.container.conf(5)
-lxc.rootfs = /dev/lxc/CONTAINER
-lxc.utsname = CONTAINER
+lxc.rootfs = /dev/lxc/{{ container_name }}
+lxc.utsname = {{ container_name }}
 lxc.arch = amd64
 
 # Common configuration
@@ -11,16 +11,16 @@ lxc.include = /usr/share/lxc/config/debian.common.conf
 ## Network setup
 lxc.network.type = veth
 lxc.network.name = eth0
-lxc.network.link = br0
+lxc.network.link = br{{ container_id }}
 lxc.network.flags = up
-lxc.network.veth.pair = veth0d
-lxc.network.ipv4 = 127.16.0.32/4
-lxc.network.ipv4.gateway = 127.16.0.1
+lxc.network.veth.pair = veth{{ container_id }}d
+lxc.network.ipv4 = 127.16.0.3{{ container_id }}
+lxc.network.ipv4.gateway = 127.16.0.1{{ container_id }}
 
 # Container specific configuration
-lxc.mount = /var/lib/lxc/CONTAINER/fstab
+lxc.mount = /var/lib/lxc/{{ container_name }}/fstab
 lxc.autodev = 1
 lxc.kmsg = 0
 lxc.pts = 1024
-lxc.hook.autodev=/var/lib/lxc/CONTAINER/autodev
+lxc.hook.autodev=/var/lib/lxc/{{ container_name }}/autodev
 

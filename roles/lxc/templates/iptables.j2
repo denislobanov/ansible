@@ -5,8 +5,10 @@
 :POSTROUTING ACCEPT [0:0]
 
 ## containers routing
--A PREROUTING -i eth0 -p tcp --dport 8022 -j DNAT --to-destination 127.16.0.32
--A POSTROUTING -s 127.16.0.32/32 -o eth0 -j MASQUERADE
+{% for c in containers %}
+-A PREROUTING -i eth0 -p tcp --dport {{ 8022 + loop.index0 }} -j DNAT --to-destination 127.16.0.3{{ loop.index0 }}:22
+-A POSTROUTING -s 127.16.0.3{{ loop.index0 }}/32 -o eth0 -j MASQUERADE
+{% endfor %}
 COMMIT
 
 *filter
@@ -15,7 +17,7 @@ COMMIT
 :OUTPUT ACCEPT [0:0]
 :TCP - [0:0]
 :UDP - [0:0]
-:lxc_production - [0:0]
+:lxc_forwards - [0:0]
 :br_outbound - [0:0]
 
 ## log and drop
@@ -37,8 +39,9 @@ COMMIT
 -A br_outbound -i br0 -j ACCEPT
 
 ## route lxc inbound
--A lxc_production -d 127.16.0.32 -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j sshguard
-
+{% for c in containers %}
+-A lxc_forwards -d 127.16.0.3{{ loop.index0 }} -p tcp -m tcp --dport {{ 8022 + loop.index0 }} -m conntrack --ctstate NEW -j sshguard
+{% endfor %}
 
 ## host 
 -A INPUT -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j sshguard
@@ -48,12 +51,12 @@ COMMIT
 # allow ping
 -A INPUT -p icmp -m icmp --icmp-type 8 -m conntrack --ctstate NEW -j ACCEPT
 
-#icmp control
+# icmp control
 -A INPUT -p udp -m conntrack --ctstate NEW -j UDP
 -A INPUT -p tcp --syn -m conntrack --ctstate NEW -j TCP
 -A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable
 -A INPUT -p tcp -j REJECT --reject-with tcp-rst
 
-#reject all others, maybe drop?
+# reject all others
 -A INPUT -j REJECT --reject-with icmp-proto-unreachable
 COMMIT

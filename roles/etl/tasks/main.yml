@@ -6,8 +6,16 @@
   copy: src=datastax.list
         dest=/etc/apt/sources.list.d/datastax.list
 
+- name: Getting DATASTAX repository key
+  get_url: url=https://debian.datastax.com/debian/repo_key 
+           dest=/root/datastax.key
+
 - name: Adding DATASTAX repository key
-  shell: curl -L https://debian.datastax.com/debian/repo_key | sudo apt-key add -
+  command: "apt-key add /root/datastax.key"
+
+- name: Removing key file
+  file: path=/root/datastax.key
+        state=absent
 
 - name: Installing Cassandra
   apt: name=cassandra
