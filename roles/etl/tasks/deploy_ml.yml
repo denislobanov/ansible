@@ -9,6 +9,20 @@
   file: path=/opt/mindmaps
         state=directory
 
+- name: Creating .ssh directory
+  file: path=/home/denis/.ssh
+        mode=0700
+        owner=denis
+        group=denis
+        state=directory
+
+- name: Installing deploy key
+  copy: content={{ ml_key }}
+        dest=/home/denis/.ssh/{{ ml_key_name }}
+        mode=0600
+        owner=denis
+        group=denis
+
 - name: Cloning ML repository
   git: repo={{ ml_repository_url }}
        dest={{ ml_clone_dest }}
