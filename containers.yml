@@ -9,11 +9,3 @@
   roles:
     - lxc
 
-- name: Deploy Containers
-  hosts: localvms
-  remote_user: denis
-  sudo: yes
-
-  roles:
-    - lxc
-

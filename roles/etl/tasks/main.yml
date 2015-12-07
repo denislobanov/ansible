@@ -1,0 +1,42 @@
+---
+# Install ETL+ML dependencies
+
+- name: Adding DATASTAX repository
+  copy: src=datastax.list
+        dest=/etc/apt/sources.list.d/datastax.list
+
+- name: Adding DATASTAX repository key
+  shell: curl -L https://debian.datastax.com/debian/repo_key | sudo apt-key add -
+
+- name: Installing Cassandra
+  apt: name=cassandra
+       update_cache=yes
+       state=latest
+
+- name: Downloading Spark
+  get_url: url={{ spark_mirror}}/spark/spark-{{ spark_version }}.tgz dest=/opt/
+
+- name: Extracting archive
+  unarchive: src=/opt/spark-{{ spark_versionh }}.tgz
+             dest=/opt/
+             copy=no
+
+- name: Creating Spark group
+  group: name=spark
+         system=yes
+         state=present
+
+- name: Creating nexus user
+  user: name=spark
+        group=spark
+        shell=/bin/false
+        system=yes
+        state=present
+
+- name: Creating symlink
+  file: src=/opt/spark-{{ spark_version }}
+        dest=/opt/spark
+        owner=spark
+        group=spark
+        state=link
+

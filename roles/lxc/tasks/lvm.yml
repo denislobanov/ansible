@@ -28,6 +28,7 @@
               opts={{ containers_fs_opts }}
   with_items:
     - "{{ containers }}"
+  ignore_errors: yes
 
 - name: Creating directories
   file: path=/var/lib/lxc/{{ item }}/rootfs state=directory

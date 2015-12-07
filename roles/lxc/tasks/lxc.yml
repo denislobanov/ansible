@@ -85,7 +85,7 @@
   copy: src=sysctl.conf dest=/etc/sysctl.conf
 
 - name: Updating iptables
-  template: src=iptables.rules dest=/etc/iptables/rules.vp
+  template: src=iptables.rules dest=/etc/iptables/rules.v4
   notify: apply iptables
 
 

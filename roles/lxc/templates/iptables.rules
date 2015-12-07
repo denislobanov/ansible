@@ -34,10 +34,10 @@ COMMIT
 -A sshguard -m recent --name sshbf --set -j ACCEPT
 
 ## bridge forward outbound
--A fw_outbound -i br0 -j ACCEPT
+-A br_outbound -i br0 -j ACCEPT
 
 ## route lxc inbound
--A lxc_git -d 127.16.0.32 -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j sshguard
+-A lxc_production -d 127.16.0.32 -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j sshguard
 
 
 ## host 
