@@ -1,0 +1,19 @@
+---
+# Initial rollout is needed to configure dependencies
+
+- include_vars: deploy.yml
+
+  # Install Dependencies
+- include: spark.yml
+
+- name: Creating deployment base dirs
+  file: path=/opt/mindmaps
+        state=directory
+
+- name: Cloning ML repository
+  git: repo={{ ml_repository_url }}
+       dest={{ ml_clone_dir }}
+       clone=yes
+       version={{ ml_branch }}
+  when: deploy_ml == true
+

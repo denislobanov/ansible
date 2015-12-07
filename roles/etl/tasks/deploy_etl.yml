@@ -1,0 +1,20 @@
+---
+# Initial rollout is needed to configure dependencies
+
+- include_vars: repo.yml
+
+- name: Creating deployment base dirs
+  file: path=/opt/mindmaps
+        state=directory
+
+- name: Cloning ETL repository
+  git: repo={{ etl_repository_url }}
+       dest={{ etl_clone_dest }}
+       clone=yes
+       version={{ etl_branch }}
+
+- name: Importing Cassandra Schema
+  command: "cqlsh -f {{ etl_clone_dest }}/src/main/resources/schema/ObjectCreationSchema.cql"
+  notify: start cassandra
+
+

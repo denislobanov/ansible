@@ -1,5 +1,6 @@
 ---
-# Install ETL+ML dependencies
+# Cassandra is installed on the host, so should be available inside all
+# containers by nature
 
 - name: Adding DATASTAX repository
   copy: src=datastax.list
@@ -13,30 +14,9 @@
        update_cache=yes
        state=latest
 
-- name: Downloading Spark
-  get_url: url={{ spark_mirror}}/spark/spark-{{ spark_version }}.tgz dest=/opt/
+- include: deploy_etl.yml
+  when: deploy_etl == true
 
-- name: Extracting archive
-  unarchive: src=/opt/spark-{{ spark_versionh }}.tgz
-             dest=/opt/
-             copy=no
-
-- name: Creating Spark group
-  group: name=spark
-         system=yes
-         state=present
-
-- name: Creating nexus user
-  user: name=spark
-        group=spark
-        shell=/bin/false
-        system=yes
-        state=present
-
-- name: Creating symlink
-  file: src=/opt/spark-{{ spark_version }}
-        dest=/opt/spark
-        owner=spark
-        group=spark
-        state=link
+- include: deploy_ml.yml
+  when: deploy_ml == true
 

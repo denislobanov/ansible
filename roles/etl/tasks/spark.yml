@@ -1,0 +1,31 @@
+---
+# Spark is installed in opt, so it needs to be installed inside the container
+# rather than the host
+
+- name: Downloading Spark
+  get_url: url={{ spark_mirror}}/spark/spark-{{ spark_version }}.tgz dest=/opt/
+
+- name: Extracting archive
+  unarchive: src=/opt/spark-{{ spark_versionh }}.tgz
+             dest=/opt/
+             copy=no
+
+- name: Creating Spark group
+  group: name=spark
+         system=yes
+         state=present
+
+- name: Creating nexus user
+  user: name=spark
+        group=spark
+        shell=/bin/false
+        system=yes
+        state=present
+
+- name: Creating symlink
+  file: src=/opt/spark-{{ spark_version }}
+        dest=/opt/spark
+        owner=spark
+        group=spark
+        state=link
+
