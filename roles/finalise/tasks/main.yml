@@ -1,0 +1,12 @@
+---
+# Finalise server details - host & container passwords
+- name: Setting root password
+  user: name=root
+        password={{ root_pw }}
+        update_password=always
+
+- name: Setting user password
+  user: name=denis
+        password={{ denis_pw }}
+        update_password=always
+

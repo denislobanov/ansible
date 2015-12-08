@@ -37,3 +37,12 @@
   notify: restart cassandra
   ignore_errors: true
 
+- name: Installing Dependencies
+  apt: name=maven
+       state=present
+
+- name: Starting ETL
+  shell: mvn clean package spring-boot:run
+  args:
+    chdir: /home/denis/etl
+

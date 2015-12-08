@@ -2,6 +2,8 @@
 # Cassandra is installed on the host, so should be available inside all
 # containers by nature
 
+- include_vars: repositories.yml
+
 - name: Adding DATASTAX repository
   copy: src=datastax.list
         dest=/etc/apt/sources.list.d/datastax.list
@@ -17,14 +19,26 @@
   file: path=/root/datastax.key
         state=absent
 
-- name: Installing Cassandra
-  apt: name=cassandra
-       update_cache=yes
-       state=latest
+- name: Installing deploy key
+  copy: content={{ etl_key }}
+        dest=/home/denis/.ssh/{{ etl_key_name }}
+        mode=0600
+        owner=denis
+        group=denis
 
-- include: deploy_etl.yml
-  when: deploy_etl == true
+- name: Cloning ETL repository
+  git: repo={{ etl_repository_url }}
+       dest={{ etl_clone_dest }}
+       clone=yes
+       version={{ etl_branch }}
+       accept_hostkey=yes
+       key_file=/home/denis/.ssh/{{ etl_key_name }}
+       bare=no
+  async: 0
+  poll: 20
 
-- include: deploy_ml.yml
-  when: deploy_ml == true
+- name: Importing Cassandra Schema
+  command: "cqlsh -f {{ etl_clone_dest }}/src/main/resources/schema/ObjectCreationSchema.cql"
+  notify: restart cassandra
+  ignore_errors: true
 

@@ -1,0 +1,9 @@
+---
+# Deploy via ansible
+
+- include: deploy_etl.yml
+  when: deploy_etl == true
+
+- include: deploy_ml.yml
+  when: deploy_ml == true
+

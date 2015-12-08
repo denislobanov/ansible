@@ -47,7 +47,7 @@
   copy: src=iptables.logrotate dest=/etc/logrotate.d/iptables
 
 - name: Copying iptables rules
-  template: src=iptables.rules dest=/etc/iptables/rules.vp
+  template: src=iptables.rules dest=/etc/iptables/rules.v4
   notify: apply iptables
 
 - name: Installing common dependencies

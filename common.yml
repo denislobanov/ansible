@@ -1,0 +1,10 @@
+---
+# Common setup for all hosts
+
+- name: Deploying basic common setup
+  hosts: all
+  remote_user: root
+  
+  roles:
+    - common
+

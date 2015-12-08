@@ -1,7 +1,7 @@
 ---
 # Production run
 
-- name: Common Server Bringup
+- name: Running common - updates
   hosts: holloway
   remote_user: denis
   sudo: yes

@@ -7,7 +7,8 @@ lvm_size: 1G
 containers_fs: ext2
 containers_fs_opts: ""
 containers:
-  - "development"
+  - "etl_development"
+  - "ml_development"
 wipe_bcache: false
 deploy_etl: true
 deploy_ml: true
@@ -15,4 +16,6 @@ etl_branch: "development"
 ml_branch: "development"
 etl_clone_dest: /home/denis/etl
 ml_clone_dest: /home/denis/ml
+root_pw: "{{ test_root_pw }}"
+denis_pw: "{{ test_denis_pw }}"
 

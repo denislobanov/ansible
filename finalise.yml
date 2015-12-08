@@ -1,0 +1,12 @@
+---
+# Final stage setup of account passwords
+
+- name: Finalising hosts
+  hosts: all
+  remote_user: denis
+  sudo: yes
+
+  roles:
+    - finalise
+
+
