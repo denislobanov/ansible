@@ -32,17 +32,12 @@
   async: 0
   poll: 20
 
-- name: Importing Cassandra Schema
-  command: "cqlsh -f {{ etl_clone_dest }}/src/main/resources/schema/ObjectCreationSchema.cql"
-  notify: restart cassandra
-  ignore_errors: true
-
 - name: Installing Dependencies
   apt: name=maven
        state=present
 
 - name: Starting ETL
-  shell: mvn clean package spring-boot:run
+  shell: "{{ etl_deploy_cmd }}"
   args:
     chdir: /home/denis/etl
 

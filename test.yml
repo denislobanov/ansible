@@ -16,18 +16,11 @@
   roles:
     - lxc
 
-- name: base etl
+- name: Deploying ETL
   hosts: localvms
   remote_user: denis
   sudo: yes
   roles:
     - etl
-
-- name: container etl
-  hosts: localvms
-  remote_user: denis
-  sudo: yes
-  roles:
-    - etl
-
+    - deploy
 
