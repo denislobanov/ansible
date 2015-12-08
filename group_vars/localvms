@@ -11,8 +11,8 @@ containers:
 wipe_bcache: false
 deploy_etl: true
 deploy_ml: true
-etl_branch: "master"
-ml_branch: "master"
-etl_clone_dest: /home/denis
-ml_clone_dest: /home/denis
+etl_branch: "development"
+ml_branch: "development"
+etl_clone_dest: /home/denis/etl
+ml_clone_dest: /home/denis/ml
 

@@ -28,5 +28,7 @@
        dest={{ ml_clone_dest }}
        clone=yes
        version={{ ml_branch }}
+       accept_hostkey=yes
+       key_file=/home/denis/.ssh/{{ ml_key_name }}
   when: deploy_ml == true
 

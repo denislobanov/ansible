@@ -3,10 +3,10 @@
 # rather than the host
 
 - name: Downloading Spark
-  get_url: url={{ spark_mirror}}/spark/spark-{{ spark_version }}.tgz dest=/opt/
+  get_url: url={{ spark_mirror}}/spark/spark-{{ spark_version }}/spark-{{ spark_version }}{{ spark_package }}.tgz dest=/opt/
 
 - name: Extracting archive
-  unarchive: src=/opt/spark-{{ spark_versionh }}.tgz
+  unarchive: src=/opt/spark-{{ spark_version }}{{ spark_package }}.tgz
              dest=/opt/
              copy=no
 
@@ -23,7 +23,7 @@
         state=present
 
 - name: Creating symlink
-  file: src=/opt/spark-{{ spark_version }}
+  file: src=/opt/spark-{{ spark_version }}{{ spark_package }}
         dest=/opt/spark
         owner=spark
         group=spark

@@ -26,11 +26,14 @@
        dest={{ etl_clone_dest }}
        clone=yes
        version={{ etl_branch }}
+       accept_hostkey=yes
+       key_file=/home/denis/.ssh/{{ etl_key_name }}
+       bare=no
   async: 0
   poll: 20
 
 - name: Importing Cassandra Schema
   command: "cqlsh -f {{ etl_clone_dest }}/src/main/resources/schema/ObjectCreationSchema.cql"
-  notify: start cassandra
-
+  notify: restart cassandra
+  ignore_errors: true
 

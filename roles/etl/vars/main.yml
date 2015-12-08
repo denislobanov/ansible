@@ -1,4 +1,5 @@
 ---
 
-spark_mirror: http://mirror.ox.ac.uk/sites/rsync.apache.org/
-spark_version: 1.5.2-bin-without-hadoop
+spark_mirror: http://mirror.ox.ac.uk/sites/rsync.apache.org
+spark_version: 1.5.2
+spark_package: -bin-without-hadoop
