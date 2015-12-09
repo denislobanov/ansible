@@ -2,3 +2,7 @@
 
 - name: apply iptables
   action: shell /sbin/iptables-restore < /etc/iptables/rules.v4
+
+- name: restart network
+  shell: /etc/network/ansible-restart.sh
+

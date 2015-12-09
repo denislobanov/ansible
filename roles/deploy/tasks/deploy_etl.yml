@@ -21,6 +21,10 @@
         owner=denis
         group=denis
 
+- name: Removing old instances of ETL repository
+  file: path={{ etl_clone_dest }}
+        state=absent
+
 - name: Cloning ETL repository
   git: repo={{ etl_repository_url }}
        dest={{ etl_clone_dest }}
@@ -35,6 +39,12 @@
 - name: Installing Dependencies
   apt: name=maven
        state=present
+
+- name: Setting etlsh password
+  lineinfile: dest={{ etl_clone_dest }}/src/main/resources/application.properties
+              regexp="shell.auth.simple.user.password=admin"
+              line="shell.auth.simple.user.password={{ etlsh_password }}"
+              state=present
 
 - name: Starting ETL
   shell: "{{ etl_deploy_cmd }}"

@@ -1,20 +1,21 @@
 ---
 # Deploy ETL + ML server
 
-- name: Building ETL/ML Host
-  hosts: etl-servers
+- name: Building ETL Container
+  hosts:
+    - etl-plxc
+    - etl-dlxc
   remote_user: denis
   sudo: yes
 
   roles:
     - etl
 
-- name: Deploying Containers
+- name: Deploying to containers
   hosts: containers
   remote_user: denis
   sudo: yes
   
   roles:
-    - etl
     - deploy
 

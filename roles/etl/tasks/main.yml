@@ -30,6 +30,7 @@
         mode=0644
         owner=root
         group=root
+  notify: restart cassandra
 
 - name: Installing deploy key
   copy: content={{ etl_key }}
@@ -46,6 +47,7 @@
        accept_hostkey=yes
        key_file=/home/denis/.ssh/{{ etl_key_name }}
        bare=no
+       force=yes
   async: 0
   poll: 20
 
