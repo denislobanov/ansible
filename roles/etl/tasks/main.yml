@@ -19,6 +19,18 @@
   file: path=/root/datastax.key
         state=absent
 
+- name: Installing Cassandra
+  apt:  name=cassandra=2.2.0
+        update_cache=yes
+        state=present
+
+- name: Configuring Cassandra
+  copy: src=cassandra-env.sh
+        dest=/etc/cassandra/cassandra-env.sh
+        mode=0644
+        owner=root
+        group=root
+
 - name: Installing deploy key
   copy: content={{ etl_key }}
         dest=/home/denis/.ssh/{{ etl_key_name }}
