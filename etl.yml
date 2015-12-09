@@ -1,7 +1,7 @@
 ---
 # Deploy ETL + ML server
 
-- name: Deploying host
+- name: Building ETL/ML Host
   hosts: etl-servers
   remote_user: denis
   sudo: yes
@@ -9,47 +9,12 @@
   roles:
     - etl
 
-- name: Deploying ETL development containers
-  hosts: etl-dlxc
+- name: Deploying Containers
+  hosts: containers
   remote_user: denis
   sudo: yes
-  set_fact:
-    deploy_etl: true
-    etl_branch: "development"
   
   roles:
     - etl
-
-- name: Deploying ETL production containers
-  hosts: etl-plxc
-  remote_user: denis
-  sudo: yes
-  set_fact:
-    deploy_etl: true
-    etl_branch: "master"
-  
-  roles:
-    - etl
-
-- name: Deploying ML development containers
-  hosts: ml-dlxc
-  remote_user: denis
-  sudo: yes
-  set_fact:
-    deploy_ml: true
-    ml_branch: "development"
-  
-  roles:
-    - etl
-
-- name: Deploying ML production containers
-  hosts: ml-plxc
-  remote_user: denis
-  sudo: yes
-  set_fact:
-    deploy_ml: true
-    ml_branch: "master"
-  
-  roles:
-    - etl
+    - deploy
 

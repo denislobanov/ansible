@@ -21,7 +21,7 @@ web-servers
 build-servers
 ancillary-servers
 
-[container-servers:children]
+[container-hosts:children]
 core-servers
 etl-servers
 web-servers
@@ -37,4 +37,10 @@ web-servers
 
 [ml-plxc]
 10.10.20.101:2025
+
+[containers:children]
+etl-dlxc
+etl-plxc
+ml-dlxc
+ml-plxc
 

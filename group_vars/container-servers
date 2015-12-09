@@ -3,11 +3,10 @@
 bcache_backing: /dev/md0
 bcache_cache: /dev/disk/by-partlabel/bcache
 lvm_pv: /dev/bcache0
-lvm_size: 2T
 containers_fs: jfs
 containers_fs_opts: "-q"
 containers:
-  - "development"
-  - "production"
+  - { name: "development", size: 2T }
+  - { name: "production", size: 2T }
 wipe_bcache: false
 

@@ -1,8 +1,8 @@
 ---
 # Set up system for containers
 
-- name: Deploy Containers
-  hosts: container-servers
+- name: Deploying container hosts
+  hosts: container-hosts
   remote_user: denis
   sudo: yes
 

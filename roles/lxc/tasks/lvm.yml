@@ -10,20 +10,20 @@
   command: "pvcreate {{ lvm_pv }}"
   ignore_errors: yes
 
-- name: Settung up LVM groups
+- name: Setting up LVM groups
   lvg: vg=lxc pvs={{ lvm_pv }}
   ignore_errors: yes
 
 - name: Setting up LVM volumes
-  lvol: lv={{ item }} 
+  lvol: lv={{ item.name }} 
         vg=lxc
-        size={{ lvm_size }}
+        size={{ item.size }}
         state=present
   with_items:
     - "{{ containers }}"
 
 - name: Creating file systems
-  filesystem: dev=/dev/lxc/{{ item }}
+  filesystem: dev=/dev/lxc/{{ item.name }}
               fstype={{ containers_fs }}
               opts={{ containers_fs_opts }}
   with_items:
@@ -31,21 +31,21 @@
   ignore_errors: yes
 
 - name: Creating directories
-  file: path=/var/lib/lxc/{{ item }}/rootfs state=directory
+  file: path=/var/lib/lxc/{{ item.name }}/rootfs state=directory
   with_items:
     - "{{ containers }}"
 
 - name: Creating fstab entries
-  mount: name=/var/lib/lxc/{{ item }}/rootfs 
-         src=/dev/lxc/{{ item }} 
+  mount: name=/var/lib/lxc/{{ item.name }}/rootfs 
+         src=/dev/lxc/{{ item.name }} 
          fstype={{ containers_fs }}
          state=present
   with_items:
     - "{{ containers }}"
 
 - name: Mounting
-  mount: name=/var/lib/lxc/{{ item }}/rootfs 
-         src=/dev/lxc/{{ item }} 
+  mount: name=/var/lib/lxc/{{ item.name }}/rootfs 
+         src=/dev/lxc/{{ item.name }} 
          fstype={{ containers_fs }}
          state=mounted
   with_items:

@@ -3,12 +3,12 @@
 bcache_cache: /dev/sda7
 bcache_backing: /dev/sda8
 lvm_pv: /dev/bcache0
-lvm_size: 1G
 containers_fs: ext2
 containers_fs_opts: ""
 containers:
-  - "etl_development"
-  - "ml_development"
+  - { name: "development", size: 1G }
+  - { name: "production", size: 1G }
+
 wipe_bcache: false
 deploy_etl: true
 deploy_ml: true
