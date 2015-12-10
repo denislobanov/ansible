@@ -70,3 +70,11 @@
   with_items:
     - "{{ containers }}"
 
+- name: Allowing root ssh
+  lineinfile: dest=/var/lib/lxc/{{ item.name }}/rootfs/etc/ssh/sshd_config
+              regexp="without-password"
+              line="yes"
+  with_items:
+    - "{{ containers }}"
+  notify: restart lxc
+

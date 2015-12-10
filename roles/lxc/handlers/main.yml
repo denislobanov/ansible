@@ -6,3 +6,8 @@
 - name: restart network
   shell: /etc/network/ansible-restart.sh
 
+- name: restart lxc
+  shell: lxc-stop -n {{ item.name }}; lxc-start -n {{ item.name }} -d
+  with_items:
+    - "{{ containers }}"
+

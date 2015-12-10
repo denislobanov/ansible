@@ -8,5 +8,5 @@ containers_fs_opts: "-q"
 containers:
   - { name: "development", size: 2T }
   - { name: "production", size: 2T }
-wipe_bcache: false
+wipe_bcache: true
 

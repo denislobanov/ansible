@@ -39,6 +39,8 @@
   mount: name=/var/lib/lxc/{{ item.name }}/rootfs 
          src=/dev/lxc/{{ item.name }} 
          fstype={{ containers_fs }}
+         dump=0
+         passno=2
          state=present
   with_items:
     - "{{ containers }}"

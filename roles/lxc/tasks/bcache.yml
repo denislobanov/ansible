@@ -47,3 +47,7 @@
 - name: Registering backing device
   command: "echo {{ bcache_backing }} > /sys/fs/bcache/register"
 
+- name: Configuring boot modules
+  copy: src=modules
+        dest=/etc/modules
+

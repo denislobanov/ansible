@@ -26,21 +26,13 @@ core-servers
 etl-servers
 web-servers
 
-[etl-dlxc]
-10.10.20.101:2022
+[etl-containers]
+10.10.20.101:8022
 
-[etl-plxc]
-10.10.20.101:2023
-
-[ml-dlxc]
-10.10.20.101:2024
-
-[ml-plxc]
-10.10.20.101:2025
+[ml-containers]
+10.10.20.101:8023
 
 [containers:children]
-etl-dlxc
-etl-plxc
-ml-dlxc
-ml-plxc
+etl-containers
+ml-containers
 
