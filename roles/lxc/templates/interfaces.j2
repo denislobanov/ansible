@@ -9,11 +9,13 @@ iface lo inet loopback
 allow-hotplug eth0
 iface eth0 inet dhcp
 
-## LXC bridge interfaces
+# LXC bridge interfaces
 {% for c in containers %}
+## {{ c.name }}
 auto br{{ loop.index0 }}
 iface br{{ loop.index0 }} inet static
     address 172.{{ 16 + loop.index0 }}.0.1
     netmask 255.255.255.252
     bridge_ports none
+
 {% endfor %}

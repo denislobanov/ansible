@@ -8,7 +8,7 @@
 {% for c in containers %}
 
 # {{ c.name }} container
--A POSTROUTING -s 172.{{ 16 + loop.index0 }}.0.2/32 -o eth0 -j MASQUERADE
+-A POSTROUTING -s 172.{{ 16 + loop.index0 }}.0.2/30 -o eth0 -j MASQUERADE
 -A PREROUTING -i eth0 -p tcp --dport {{ 8022 + loop.index0 }} -j DNAT --to-destination 172.{{ 16 + loop.index0 }}.0.2:22
 {% if c.name == 'development' %}
 -A PREROUTING -i eth0 -p tcp --dport 8080  -j DNAT --to-destination 172.{{ 16 + loop.index0 }}.0.2:80
@@ -63,6 +63,12 @@ COMMIT
 -A lxc_forwards -d 172.{{ 16 + loop.index0 }}.0.2 -p tcp -m tcp --dport {{ 8200 + loop.index0 }} -m conntrack --ctstate NEW -j sshguard
 {% endif %}
 {% endfor %}
+
+## lxc forwards
+-A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -j lxc_forwards
+-A FORWARD -j br_outbound
+-A FORWARD -j REJECT --reject-with icmp-host-unreach
 
 ## host 
 -A INPUT -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j sshguard

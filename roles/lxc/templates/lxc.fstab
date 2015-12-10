@@ -1,4 +1,0 @@
-/lib    /lib        none      ro,bind     0 0
-/bin    /bin        none      ro,bind     0 0
-/usr    /usr        none      ro,bind     0 0
-/sbin   /sbin       none      ro,bind     0 0

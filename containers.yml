@@ -1,13 +1,13 @@
 ---
 # Set up system for containers
 
-#- name: Deploying container hosts
-#  hosts: container-hosts
-#  remote_user: denis
-#  sudo: yes
-#
-#  roles:
-#    - lxc
+- name: Deploying container hosts
+  hosts: container-hosts
+  remote_user: denis
+  sudo: yes
+
+  roles:
+    - lxc
 
 - name: Deploying containers
   hosts: containers
