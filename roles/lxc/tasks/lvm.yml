@@ -23,9 +23,7 @@
     - "{{ containers }}"
 
 - name: Creating file systems
-  filesystem: dev=/dev/lxc/{{ item.name }}
-              fstype={{ containers_fs }}
-              opts={{ containers_fs_opts }}
+  command: "mkfs -t {{ containers_fs }} {{ containers_fs_opts }} /dev/lxc/{{ item.name }} "
   with_items:
     - "{{ containers }}"
   ignore_errors: yes

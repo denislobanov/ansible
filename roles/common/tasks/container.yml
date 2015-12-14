@@ -1,0 +1,7 @@
+---
+# Common install for LXC containers
+
+- include: install.yml
+- include: java.yml
+- include: users.yml
+

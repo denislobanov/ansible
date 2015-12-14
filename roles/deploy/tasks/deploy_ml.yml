@@ -5,17 +5,6 @@
   # Install Dependencies
 - include: spark.yml
 
-- name: Creating deployment base dirs
-  file: path=/opt/mindmaps
-        state=directory
-
-- name: Creating .ssh directory
-  file: path=/home/denis/.ssh
-        mode=0700
-        owner=denis
-        group=denis
-        state=directory
-
 - name: Installing deploy key
   copy: content={{ ml_key }}
         dest=/home/denis/.ssh/{{ ml_key_name }}

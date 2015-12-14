@@ -4,7 +4,7 @@ bcache_backing: /dev/md0
 bcache_cache: /dev/disk/by-partlabel/bcache
 lvm_pv: /dev/bcache0
 containers_fs: jfs
-containers_fs_opts: "-q"
+containers_fs_opts: "-qf"
 containers:
   - { name: "development", size: 2T }
   - { name: "production", size: 2T }

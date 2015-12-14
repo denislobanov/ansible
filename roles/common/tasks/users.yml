@@ -1,0 +1,22 @@
+---
+# Add non-root users here
+
+- name: Checking srv_user group
+  group: name={{ srv_user }}
+         state=present
+         system=yes
+
+- name: Checking srv_user
+  user: name={{ srv_user }}
+        password={{ srv_pass }}
+        state=present
+        group={{ srv_user }}
+        groups="sudo"
+        system=yes
+
+- name: Ensuring ssh is allowed
+  authorized_key: user={{ srv_user }} 
+                  key={{ srv_key}} 
+                  state=present
+
+

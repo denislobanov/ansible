@@ -1,0 +1,28 @@
+---
+# Deploy Moogi from git repository
+
+- include_vars: repositories.yml
+
+- name: Installing deploy key
+  copy: content={{ moogi_key }}
+        dest=/home/denis/.ssh/{{ moogi_key_name }}
+        mode=0600
+        owner=denis
+        group=denis
+
+- name: Cloning Moogi repository
+  git: repo={{ moogi_repository_url }}
+       dest={{ moogi_clone_dest }}
+       clone=yes
+       version={{ moogi_branch }}
+       accept_hostkey=yes
+       key_file=/home/denis/.ssh/{{ moogi_key_name }}
+       bare=no
+  async: 0
+  poll: 20
+
+- name: Starting Moogi
+  shell: "{{ moogi_deploy_cmd }}"
+  args:
+    chdir: {{ moogi_clone_dest }}
+

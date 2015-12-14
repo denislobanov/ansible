@@ -1,0 +1,24 @@
+---
+# Install various common utilities and dependencies
+
+
+- name: Installing helpful utilities
+  apt: name={{ item }}
+       state=latest
+       update_cache=yes
+  with_items:
+    - "sudo"
+    - "zsh"
+    - "htop"
+    - "tree"
+    - "ranger"
+    - "vim"
+    - "tmux"
+    - "make"
+    - "autotools-dev"
+    - "autoconf"
+    - "git"
+    - "haveged"
+    - "jfsutils"
+    - "iptables-persistent"
+

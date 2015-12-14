@@ -1,6 +1,8 @@
 ---
 # Deploy via ansible
 
+- include: common.yml
+
 - include: deploy_etl.yml
   when: deploy_etl == true
 

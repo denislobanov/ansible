@@ -3,16 +3,9 @@
 
 - include_vars: repositories.yml
 
-- name: Creating deployment base dirs
-  file: path=/opt/mindmaps
-        state=directory
-
-- name: Creating .ssh directory
-  file: path=/home/denis/.ssh
-        mode=0700
-        owner=denis
-        group=denis
-        state=directory
+- name: Removing old instances of ETL repository
+  file: path={{ etl_clone_dest }}
+        state=absent
 
 - name: Installing deploy key
   copy: content={{ etl_key }}
@@ -20,10 +13,6 @@
         mode=0600
         owner=denis
         group=denis
-
-- name: Removing old instances of ETL repository
-  file: path={{ etl_clone_dest }}
-        state=absent
 
 - name: Cloning ETL repository
   git: repo={{ etl_repository_url }}
@@ -36,10 +25,6 @@
   async: 0
   poll: 20
 
-- name: Installing Dependencies
-  apt: name=maven
-       state=present
-
 - name: Setting etlsh password
   lineinfile: dest={{ etl_clone_dest }}/src/main/resources/application.properties
               regexp="shell.auth.simple.user.password=admin"
@@ -49,5 +34,5 @@
 - name: Starting ETL
   shell: "{{ etl_deploy_cmd }}"
   args:
-    chdir: /home/denis/etl
+    chdir: {{ etl_clone_dest }}
 

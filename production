@@ -4,7 +4,7 @@
 10.10.10.100
 
 [etl-servers]
-10.10.20.101
+etl-plx121 ansible_host=10.10.20.101
 
 [web-servers]
 10.10.10.101
@@ -13,6 +13,12 @@
 
 [ancillary-servers]
 10.10.20.100
+
+[etl-containers]
+etl-llxd1 ansible_host=10.10.20.101 ansible_port=8022
+
+[ml-containers]
+ml-llxd1 ansible_host=10.10.20.101 ansible_port=8023
 
 [holloway:children]
 core-servers
@@ -25,12 +31,6 @@ ancillary-servers
 core-servers
 etl-servers
 web-servers
-
-[etl-containers]
-10.10.20.101:8022
-
-[ml-containers]
-10.10.20.101:8023
 
 [containers:children]
 etl-containers

@@ -1,0 +1,19 @@
+---
+# Create base directories, any other common functionalities
+
+- name: Creating deployment base dirs
+  file: path=/opt/mindmaps
+        state=directory
+
+- name: Creating .ssh directory
+  file: path=/home/denis/.ssh
+        mode=0700
+        owner=denis
+        group=denis
+        state=directory
+
+- name: Installing Dependencies
+  apt: name=maven
+       state=present
+
+

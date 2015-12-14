@@ -8,4 +8,9 @@ etl_deploy_cmd: |
     tmux new-session -d -s etl;
     rm src/main/resources/application-development.properties;
     tmux send-keys -t etl 'mvn clean package spring-boot:run' C-m
- 
+
+moogi_deploy_cmd: |
+    tmux new-session -d -s moogi;
+    rm src/main/resources/application-development.properties;
+    tmux send-keys -t etl 'mvn clean package spring-boot:run  -Drun.jvmArguments="-Xmx4g"' C-m
+

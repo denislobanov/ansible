@@ -2,7 +2,7 @@
 
 - set_fact: container_id={{ cid }}
 - set_fact: container_name={{ cname }}
-- set_fact: container_subnet=16 + {{ cid | int }}
+- set_fact: container_subnet={{ 16 + cid | int }}
 
 - name: Copying config files
   template: src=lxc_config.j2 dest=/var/lib/lxc/{{ cname }}/config
