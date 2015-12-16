@@ -1,0 +1,31 @@
+---
+# Configure NFS server
+
+- name: Installing NFS dependencies
+  apt: name={{ item }}
+       state=present
+  with_items:
+    - "nfs-kernel-server"
+    - "portmap"
+
+- name: Configuring portmap
+  lineinfile: dest=/etc/default/portmap
+              regexp="^OPTIONS"
+              line="^OPTIONS"="#OPTIONS"
+
+- name: Allowing ETL access
+  lineinfile: dest = /etc/hosts.allow
+              line = "portmap: {{ item }}"
+              state=present
+  with_items:
+    - "{{ etl-containers }}"
+  notify: restart portmap
+
+- name: Configuring exports
+  lineinfile: dest=/etc/exports
+              line="/srv/static_content/{{ item }}(rw,no_root_squash,subtree_check"
+              state=present
+  with_items:
+    - "{{ etl-containers }}"
+  notify: restart nfs-kernel-server
+

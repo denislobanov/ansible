@@ -1,21 +1,30 @@
 ---
 
+wipe_bcache: false
 bcache_cache: /dev/sda7
 bcache_backing: /dev/sda8
+
 lvm_pv: /dev/bcache0
+
 containers_fs: ext2
 containers_fs_opts: ""
 containers:
   - { name: "development", size: 1G }
   - { name: "production", size: 1G }
 
-wipe_bcache: false
+
 deploy_etl: true
-deploy_ml: true
 etl_branch: "development"
-ml_branch: "development"
 etl_clone_dest: /home/denis/etl
+
+deploy_ml: true
+ml_branch: "development"
 ml_clone_dest: /home/denis/ml
+
+deploy_moogi: true
+moogi_branch: "development"
+moogi_clone_dest: /opt/mindmaps/moogi
+
 root_pw: "{{ test_root_pw }}"
 denis_pw: "{{ test_denis_pw }}"
 

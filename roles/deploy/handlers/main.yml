@@ -1,0 +1,8 @@
+---
+
+- name: restart portmap
+  service: name=portmat state=restarted
+
+- name: restart nfs-kernel-server
+  service: name=nfs-kernel-server state=restarted
+

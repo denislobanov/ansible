@@ -72,7 +72,8 @@
 
 - name: Allowing root ssh
   lineinfile: dest=/var/lib/lxc/{{ item.name }}/rootfs/etc/ssh/sshd_config
-              'regexp="PermitRootLogin without-password" line="PermitRootLogin without-password"="PermitRootLogin yes"'
+              regexp="^PermitRootLogin"
+              line="PermitRootLogin yes"
   with_items:
     - "{{ containers }}"
   notify: restart lxc

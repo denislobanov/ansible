@@ -25,6 +25,19 @@
   async: 0
   poll: 20
 
+- name: Adding NFS mount
+  mount: name=/srv/static_content 
+         src=web-clxd1:/srv/static_content
+         fstype=nfs4
+         opts=rsize=8192,wsize=8192,timeo=14,_netdev
+         dump=0
+         passno=0
+         state=present
+
+- name: Mounting NFS
+  mount: name=/srv/static_content
+         state=mounted
+
 - name: Setting etlsh password
   lineinfile: dest={{ etl_clone_dest }}/src/main/resources/application.properties
               regexp="shell.auth.simple.user.password=admin"

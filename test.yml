@@ -16,7 +16,7 @@
   roles:
     - lxc
 
-- name: Deploying ETL
+- name: Running Deploy
   hosts: localvms
   remote_user: denis
   sudo: yes

@@ -8,7 +8,7 @@
 {% for c in containers %}
 
 # {{ c.name }} container
--A POSTROUTING -s 172.{{ 16 + loop.index0 }}.0.2/30 -o eth0 -j MASQUERADE
+-A POSTROUTING -s 172.{{ 16 + loop.index0 }}.0.0/30 -o eth0 -j MASQUERADE
 -A PREROUTING -i eth0 -p tcp --dport {{ 8022 + loop.index0 }} -j DNAT --to-destination 172.{{ 16 + loop.index0 }}.0.2:22
 {% if c.name == 'development' %}
 -A PREROUTING -i eth0 -p tcp --dport 8080  -j DNAT --to-destination 172.{{ 16 + loop.index0 }}.0.2:80
