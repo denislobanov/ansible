@@ -1,0 +1,14 @@
+---
+# Set up LVM and LXC
+
+- name: Installing tools
+  apt: name={{ item }}
+       update_cache=yes
+       state=latest
+  with_items:
+      - "dmsetup"
+      - "lvm2"
+
+- include: bcache.yml
+- include: lvm.yml
+

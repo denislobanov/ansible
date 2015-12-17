@@ -1,0 +1,32 @@
+---
+# Format logical volumes, setup mount points
+
+- name: Creating file systems
+  command: "mkfs -t {{ partitions_fs }} {{ partitions_opts }} /dev/lxc/{{ item.name }} "
+  with_items:
+    - "{{ partitions }}"
+  ignore_errors: yes
+
+- name: Creating directories
+  file: path={{ item.path }} state=directory
+  with_items:
+    - "{{ partitions }}"
+
+- name: Creating fstab entries
+  mount: name={{ item.path }}
+         src=/dev/data/{{ item.name }} 
+         fstype={{ partitions_fs }}
+         dump=0
+         passno=2
+         state=present
+  with_items:
+    - "{{ partitions }}"
+
+- name: Mounting
+  mount: name={{ item.path }}
+         src=/dev/data/{{ item.name }} 
+         fstype={{ partitions_fs }}
+         state=mounted
+  with_items:
+    - "{{ partitions }}"
+

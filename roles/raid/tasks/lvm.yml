@@ -1,0 +1,24 @@
+---
+# Set up LVM for containers
+
+- name: Checking for {{ lvm_pv }}
+  stat: path={{ lvm_pv}}
+  register: pv_present
+  failed_when: pv_present.stat.exists == false
+
+- name: Setting up LVM physical volumes
+  command: "pvcreate {{ lvm_pv }}"
+  ignore_errors: yes
+
+- name: Setting up LVM groups
+  lvg: vg=lxc pvs={{ lvm_pv }}
+  ignore_errors: yes
+
+- name: Setting up LVM volumes
+  lvol: lv={{ item.name }} 
+        vg=lxc
+        size={{ item.size }}
+        state=present
+  with_items:
+    - "{{ partitions }}"
+

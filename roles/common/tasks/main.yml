@@ -1,8 +1,8 @@
 ---
 
 - include: host.yml
-  when: install_host == true
+  when: install_containers == false
 
 - include: container.yml
-  when: install_host == false
+  when: install_containers == true
 
