@@ -11,6 +11,4 @@ partitions:
   - { name: "static_content", path: "/srv/static_content", size: 1G }
   - { name: "postgres", path: "/var/lib/postgres", size: 1G }
 
-root_pw: "{{ test_root_pw }}"
-denis_pw: "{{ test_denis_pw }}"
-
+deploy_moogi: true

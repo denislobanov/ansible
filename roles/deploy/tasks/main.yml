@@ -4,8 +4,10 @@
 - include: common.yml
 
 - include: deploy_etl.yml
-  when: deploy_etl == true
+  when: deploy_etl is defined and deploy_etl == true
 
 - include: deploy_ml.yml
-  when: deploy_ml == true
+  when: deploy_ml is defined and deploy_ml == true
 
+- include: deploy_moogi.yml
+  when: deploy_moogi is defined and deploy_moogi == true

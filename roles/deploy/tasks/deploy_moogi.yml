@@ -2,7 +2,6 @@
 # Deploy Moogi from git repository
 
 - include_vars: repositories.yml
-- include: nfs.yml
 
 - name: Installing deploy key
   copy: content={{ moogi_key }}
@@ -25,5 +24,6 @@
 - name: Starting Moogi
   shell: "{{ moogi_deploy_cmd }}"
   args:
-    chdir: {{ moogi_clone_dest }}
+    chdir:
+      - "{{ moogi_clone_dest }}"
 

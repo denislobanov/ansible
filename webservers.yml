@@ -4,8 +4,9 @@
 - name: Deploying Moogi
   hosts: web-servers
   remote_user: denis
-  sudo: yes
-
+  become_user: yes
   roles:
-    - { role: webserver } 
+    - raid
+    - webserver
+    - deploy
 

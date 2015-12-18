@@ -47,5 +47,6 @@
 - name: Starting ETL
   shell: "{{ etl_deploy_cmd }}"
   args:
-    chdir: {{ etl_clone_dest }}
+    chdir: 
+      - "{{ etl_clone_dest }}"
 
