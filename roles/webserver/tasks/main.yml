@@ -15,16 +15,26 @@
   notify: restart postgres
 
 - name: Setting up default postgres user
+  become_user: postgres
   postgresql_user: db=postgres
                    name=postgres
                    password={{ postgres_pw }}
                    encrypted=true
                    state=present
-  
+
+- name: Adding Moogi User
+  become_user: postgres
+  postgresql_user: db=postgres
+                   name=moogi
+                   password={{ moogi_pw }}
+                   encrypted=true
+                   state=present
+
 - name: Adding Moogi DB
+  become_user: postgres
   postgresql_db: name=moogi
                  owner=moogi
-                 login_user=moogi
-                 login_password={{ moogi_pw }}
+                 login_user=postgres
+                 login_password={{ postgres_pw }}
                  state=present
 
