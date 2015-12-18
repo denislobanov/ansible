@@ -2,10 +2,9 @@
 # Format logical volumes, setup mount points
 
 - name: Creating file systems
-  command: "mkfs -t {{ partitions_fs }} {{ partitions_opts }} /dev/lxc/{{ item.name }} "
+  shell: "mkfs -t {{ partitions_fs }} {{ partitions_opts }} /dev/data/{{ item.name }}"
   with_items:
     - "{{ partitions }}"
-  ignore_errors: yes
 
 - name: Creating directories
   file: path={{ item.path }} state=directory

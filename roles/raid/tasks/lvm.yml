@@ -11,12 +11,12 @@
   ignore_errors: yes
 
 - name: Setting up LVM groups
-  lvg: vg=lxc pvs={{ lvm_pv }}
+  lvg: vg=data pvs={{ lvm_pv }}
   ignore_errors: yes
 
 - name: Setting up LVM volumes
   lvol: lv={{ item.name }} 
-        vg=lxc
+        vg=data
         size={{ item.size }}
         state=present
   with_items:

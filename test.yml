@@ -9,18 +9,10 @@
   #roles:
   #  - network-ancillary
 
-- name: LXC setup
+- name: Testing raid setup
   hosts: localvms
   remote_user: denis
   sudo: yes
   roles:
-    - lxc
-
-- name: Running Deploy
-  hosts: localvms
-  remote_user: denis
-  sudo: yes
-  roles:
-    - etl
-    - deploy
+    - raid
 

@@ -1,6 +1,0 @@
-deploy_moogi: true
-moogi_branch: "development"
-moogi_clone_dest: /opt/mindmaps/moogi
-root_pw: "{{ container_root_pw }}"
-denis_pw: "{{ container_denis_pw }}"
-
