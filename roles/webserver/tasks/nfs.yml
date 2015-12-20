@@ -6,26 +6,32 @@
        state=present
   with_items:
     - "nfs-kernel-server"
-    - "portmap"
+    - "rpcbind"
+    - "nfs-common"
 
-- name: Configuring portmap
-  lineinfile: dest=/etc/default/portmap
-              regexp="^OPTIONS"
-              line="^OPTIONS"="#OPTIONS"
+- name: Configuring hosts.deny
+  copy: src=hosts.deny
+        dest=/etc/hosts.deny
+        owner=root
+        group=root
 
-- name: Allowing ETL access
-  lineinfile: dest = /etc/hosts.allow
-              line = "portmap: {{ item }}"
-              state=present
-  with_items:
-    - "{{ etl-containers }}"
-  notify: restart portmap
+- name: Configuring hosts.allow
+  template: src=hosts.allow.j2
+            dest=/etc/hosts.allow
+            owner=root
+            group=root
+  notify: restart rpcbind
+
+- name: Configuring nfs-common
+  copy: src=nfs-common
+        dest=/etc/default/nfs-common
+
+- name: Configuring idmapd
+  copy: src=idmapd.conf
+        dest=/etc/idmapd.conf
 
 - name: Configuring exports
-  lineinfile: dest=/etc/exports
-              line="/srv/static_content/{{ item }}(rw,no_root_squash,subtree_check"
-              state=present
-  with_items:
-    - "{{ etl-containers }}"
+  template: src=exports.j2
+            dest=/etc/exports
   notify: restart nfs-kernel-server
 

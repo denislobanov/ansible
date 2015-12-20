@@ -1,6 +1,7 @@
 ---
 # Set up web server for Moogi
 - include_vars: db.yml
+- include: nfs.yml
 
 - name: Installing Dependencies
   apt: name={{ item }}

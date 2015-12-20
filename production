@@ -15,9 +15,6 @@ ml-llxd1 ansible_host=10.10.20.101 ansible_port=8023
 [web-servers]
 10.10.10.101
 
-[moogi-containers]
-web-clxd1 ansible_host=webs-servers ansible_port=8022
-
 [build-servers]
 
 [ancillary-servers]
@@ -31,7 +28,9 @@ build-servers
 ancillary-servers
 
 [container-hosts:children]
-web-servers
+etl-servers
 
 [containers:children]
-moogi-containers
+etl-containers
+ml-containers
+

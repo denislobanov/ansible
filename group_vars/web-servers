@@ -1,1 +1,17 @@
-install_host: true
+---
+
+wipe_bcache: true
+bcache_backing: /dev/md0
+bcache_cache: /dev/disk/by-partlabel/bcache
+
+lvm_pv: /dev/bcache0
+partitions_fs: jfs
+partitions_opts: "-q"
+partitions:
+  - { name: "static_content", path: "/srv/static_content", size: 1G }
+  - { name: "postgres", path: "/var/lib/postgres", size: 1G }
+
+deploy_moogi: true
+moogi_branch: development
+moogi_clone_dest: /opt/mindmaps/moogi
+
