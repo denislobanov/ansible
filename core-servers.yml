@@ -1,0 +1,12 @@
+---
+# Production run
+
+- name: Setting up core servers
+  hosts: core-servers
+  remote_user: denis
+  sudo: yes
+
+  roles:
+    - common
+    - raid
+

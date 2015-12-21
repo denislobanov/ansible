@@ -15,39 +15,41 @@
 
 - name: Wiping cache device
   command: "wipefs {{ bcache_cache }}"
-  when: wipe_bcache == true
 
 - name: Wiping cache device af
   command: "wipefs -af {{ bcache_cache }}"
-  when: wipe_bcache == true
 
 - name: Wiping backing device
   command: "wipefs {{ bcache_backing }}"
-  when: wipe_bcache == true
 
 - name: Wiping backing device af
   command: "wipefs -af {{ bcache_backing }}"
-  when: wipe_bcache == true
-
-- name: Checking for existing bcache devices
-  stat: path=/dev/bcache0
-  register: bcache_dev
 
 - name: Creating bcache device
-  command: "make-bcache -B {{ bcache_backing }} --block 4k --bucket 2M -C {{ bcache_cache }}"
-  when: bcache_dev.stat.exists == false
-
-- name: Setting cache mode
-  command: "echo writeback > /sys/block/bcache0/bcache/cache_mode"
-  when: bcache_dev.stat.exists == false
+  command: "make-bcache --wipe-bcache -B {{ bcache_backing }} --block 4k --bucket 2M -C {{ bcache_cache }}"
 
 - name: Registering caching device
-  command: "echo {{ bcache_cache }} > /sys/fs/bcache/register"
+  shell: echo {{ bcache_cache | quote }} > /sys/fs/bcache/register_quiet
+  ignore_errors: true
 
 - name: Registering backing device
-  command: "echo {{ bcache_backing }} > /sys/fs/bcache/register"
+  shell: echo {{ bcache_backing | quote }} > /sys/fs/bcache/register_quiet
+  ignore_errors: true
+
+- name: FUCK YOU BCACHE
+  shell: echo $(bcache-super-show {{ bcache_cache | quote }} | grep cset.uuid | sed -e 's/^cset.uuid\s\s//') > /home/denis/bcache
+
+- name: Attaching cache device
+  shell: echo $(bcache-super-show {{ bcache_cache | quote }} | grep cset.uuid | sed -e 's/^cset.uuid\s\s//') > /sys/block/bcache0/bcache/attach
+
+- name: Setting cache mode
+  shell: echo writeback > /sys/block/bcache0/bcache/cache_mode
 
 - name: Configuring boot modules
   copy: src=modules
         dest=/etc/modules
+
+- name: Configuring bcache
+  copy: src=bcache.conf
+        dest=/etc/tmpfiles.d/bcache.conf
 

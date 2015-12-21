@@ -1,22 +1,29 @@
 ---
 # Add non-root users here
+- include_vars: users.yml
 
-- name: Checking srv_user group
-  group: name={{ srv_user }}
+- name: Adding user groups
+  group: name={{ item.name}}
          state=present
          system=yes
+  with_items:
+    - "{{ srv_users }}"
 
-- name: Checking srv_user
-  user: name={{ srv_user }}
-        password={{ srv_pass }}
+- name: Adding users
+  user: name={{ item.name }}
+        password={{ item.password }}
         state=present
-        group={{ srv_user }}
+        group={{ item.name }}
         groups="sudo"
         system=yes
+  with_items:
+    - "{{ srv_users }}"
 
 - name: Ensuring ssh is allowed
-  authorized_key: user={{ srv_user }} 
-                  key={{ srv_key}} 
+  authorized_key: user={{ item.name }} 
+                  key={{ item.key }} 
                   state=present
+  with_items:
+    - "{{ srv_users }}"
 
 

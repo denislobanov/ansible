@@ -24,7 +24,7 @@ COMMIT
 ## sshguard
 :sshguard - [0:0]
 -A sshguard -m recent --name sshbf --rttl --update --rsource --hitcount 3 --seconds 10 -j logdrop
--A sshguard -m recent --name sshbf --rttl --update --rsource --hitcount 4 --seconds 1800 -j logdrop
+-A sshguard -m recent --name sshbf --rttl --update --rsource --hitcount 4 --seconds 180 -j logdrop
 -A sshguard -m recent --name sshbf --set -j ACCEPT
 
 ## host 
