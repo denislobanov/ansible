@@ -1,0 +1,7 @@
+---
+
+- name: Configuring iptables
+  template: src=iptables.rules
+            dest=/etc/iptables/rules.v4
+  notify: apply iptables
+

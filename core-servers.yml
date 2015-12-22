@@ -9,4 +9,5 @@
   roles:
     - common
     - raid
+    - core
 
