@@ -7,7 +7,14 @@
   sudo: yes
 
   roles:
-    - common
-    - raid
     - core
+
+
+- name: Deploying Graph manager
+  hosts: 
+  remote_user: denis
+  sudo: yes
+  
+  roles:
+    - deploy
 

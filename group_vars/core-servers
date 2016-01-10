@@ -10,6 +10,6 @@ lvm_pv: /dev/bcache0
 partitions_fs: jfs
 partitions_opts: "-q"
 partitions:
-  - { name: "resources", path: "/opt/mindmaps/resourcs", size: 6G }
+  - { name: "resources", path: "/opt/mindmaps/resources", size: 6G }
   - { name: "cassandra", path: "/var/lib/cassandra", size: 2T }
 

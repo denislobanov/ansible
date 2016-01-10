@@ -5,3 +5,10 @@
             dest=/etc/iptables/rules.v4
   notify: apply iptables
 
+- name: Copying resources
+  copy: src=/opt/mindmaps/resources/
+        dest=/opt/mindmaps/resources/
+        owner=mindmaps
+        group=mindmaps
+        force=no
+        follow=no

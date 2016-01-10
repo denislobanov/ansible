@@ -11,3 +11,7 @@
 
 - include: deploy_moogi.yml
   when: deploy_moogi is defined and deploy_moogi == true
+
+- include: deploy_graph_manager.yml
+  when: deploy_gm is defined and deploy_gm == true
+

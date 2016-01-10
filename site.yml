@@ -7,8 +7,6 @@
   sudo: yes
 
   roles:
-    - common
+    - finalise
 
-- include: ancillary.yml
-- include: containers.yml
 

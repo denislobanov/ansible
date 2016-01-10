@@ -1,6 +1,7 @@
 deploy_ml: true
 ml_branch: "development"
 ml_clone_dest: /opt/mindmaps/ml
+
 root_pw: "{{ container_root_pw }}"
 denis_pw: "{{ container_denis_pw }}"
 

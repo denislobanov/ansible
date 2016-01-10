@@ -13,6 +13,8 @@
     - "tomcat8"
     - "tomcat8-common"
     - "python-psycopg2"
+    - "nginx"
+    - "supervisor"
   notify: restart postgres
 
 - name: Setting up default postgres user

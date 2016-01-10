@@ -1,6 +1,7 @@
 deploy_etl: true
 etl_branch: "development"
 etl_clone_dest: /opt/mindmaps/etl
+
 root_pw: "{{ container_root_pw }}"
 denis_pw: "{{ container_denis_pw }}"
 

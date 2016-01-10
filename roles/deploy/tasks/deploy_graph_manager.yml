@@ -1,0 +1,32 @@
+---
+# Deploy Graph Manager from git repository
+
+- include_vars: repositories.yml
+
+- name: Installintg deploy dependencies
+  apt: name=maven state=latest
+
+- name: Installing deploy key
+  copy: content={{ gm_key }}
+        dest=/home/denis/.ssh/{{ gm_key_name }}
+        mode=0600
+        owner=denis
+        group=denis
+
+- name: Cloning gm repository
+  git: repo={{ gm_repository_url }}
+       dest={{ gm_clone_dest }}
+       clone=yes
+       version={{ gm_branch }}
+       accept_hostkey=yes
+       key_file=/home/denis/.ssh/{{ gm_key_name }}
+       bare=no
+  async: 0
+  poll: 20
+
+- name: Starting gm
+  shell: "{{ gm_deploy_cmd }}"
+  args:
+    chdir:
+      - "{{ gm_clone_dest }}"
+
