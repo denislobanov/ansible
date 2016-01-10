@@ -11,7 +11,7 @@
 
 
 - name: Deploying Graph manager
-  hosts: 
+  hosts:
   remote_user: denis
   sudo: yes
   

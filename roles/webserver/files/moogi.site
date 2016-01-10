@@ -1,0 +1,24 @@
+server {
+    listen 80;
+
+    listen 443 ssl default_server;
+    ssl_certificate /etc/ssl/certs/moogi.pem;
+    ssl_certificate_key /etc/ssl/private/moogi.key;
+    ssl_dhparam /etc/ssl/certs/moogi.dh;
+
+    location /content/ {
+        root /srv/static_content/;
+
+        try_files $uri @backend;
+        autoindex off;
+        expires max;
+    }
+
+    location / {
+        proxy_pass http://moogi.co;
+    }
+
+    location @backend {
+        proxy_pass http://moogi.co;
+    }
+}

@@ -2,10 +2,11 @@
 # Set up web server for Moogi
 - include_vars: db.yml
 - include: nfs.yml
+- include: nginx.yml
 
 - name: Installing Dependencies
   apt: name={{ item }}
-       update_cache=yes
+       update_cache=no
        state=latest
   with_items:
     - "postgresql"
@@ -13,8 +14,6 @@
     - "tomcat8"
     - "tomcat8-common"
     - "python-psycopg2"
-    - "nginx"
-    - "supervisor"
   notify: restart postgres
 
 - name: Setting up default postgres user

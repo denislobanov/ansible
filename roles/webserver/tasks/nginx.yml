@@ -1,0 +1,12 @@
+---
+# Install and configure NGINX
+
+- name: Installing NGINX
+  apt: name=nginx update_cache=yes state=latest
+
+- name: Copying NGINX configuration
+  copy: src={{ item.src }} dest={{ item.dest }} owner=root group=root
+  with_items:
+    - { src: "nginx.conf", dest: "/etc/nginx/nginx.conf" }
+    - { src: "moogi.site", dest: "/etc/nginx/sites-enabled/moogi" }
+
