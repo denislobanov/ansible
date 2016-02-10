@@ -1,20 +1,38 @@
 ---
 # Deploy ETL + ML server
 
-- name: Building ETL Container
-  hosts:
-    - etl-containers
+- name: Common setup
+  hosts: dtfm-host
+  remote_user: root
+  roles:
+    - common
+
+- name: Configuring host
+  hosts: dtfm-host
   remote_user: denis
   sudo: yes
+  roles:
+    - raid
+    - lxc
 
+- name: Building ETL Container
+  hosts: etl-llxd1
+  remote_user: denis
+  sudo: yes
   roles:
     - etl
+    - finalise
 
-- name: Deploying to containers
-  hosts: containers
+- name: Bulding ML Containers
+  hosts: ml-llxd1
   remote_user: denis
   sudo: yes
-  
+  roles: finalise
+
+- name: Finalising host
+  hosts: dtfm-host
+  remote_user: denis
+  sudo: yes
   roles:
-    - deploy
+    - finalise
 

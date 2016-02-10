@@ -1,19 +1,16 @@
 [core-servers]
 10.10.10.102
 10.10.10.103
-10.10.10.100
 
-[etl-servers]
-etl-plx121 ansible_host=10.10.20.101
+[dtfm-host]
+10.10.20.108
 
-[etl-containers]
-etl-llxd1 ansible_host=10.10.20.101 ansible_port=8022
-
-[ml-containers]
-ml-llxd1 ansible_host=10.10.20.101 ansible_port=8023
+[dtfm-containers]
+etl-llxd1 ansible_host=10.10.20.108 ansible_port=8022
+ml-llxd1 ansible_host=10.10.20.108 ansible_port=8023
 
 [web-servers]
-10.10.10.101
+10.10.10.116
 
 [build-servers]
 
@@ -22,15 +19,8 @@ ml-llxd1 ansible_host=10.10.20.101 ansible_port=8023
 
 [holloway:children]
 core-servers
-etl-servers
+dtfm-servers
 web-servers
 build-servers
 ancillary-servers
-
-[container-hosts:children]
-etl-servers
-
-[containers:children]
-etl-containers
-ml-containers
 

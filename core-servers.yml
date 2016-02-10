@@ -2,19 +2,10 @@
 # Production run
 
 - name: Setting up core servers
-  hosts: core-servers
+  hosts: new-servers
   remote_user: denis
   sudo: yes
 
   roles:
     - core
-
-
-- name: Deploying Graph manager
-  hosts:
-  remote_user: denis
-  sudo: yes
-  
-  roles:
-    - deploy
 

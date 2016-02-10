@@ -46,9 +46,11 @@
 -A INPUT -p tcp -m tcp --dport 8000 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 8081 -j ACCEPT
 
+## Graph Manager HTTP
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 -A INPUT -m conntrack --ctstate INVALID -j DROP
-
 
 # allow ping
 -A INPUT -p icmp -m icmp --icmp-type 8 -m conntrack --ctstate NEW -j ACCEPT

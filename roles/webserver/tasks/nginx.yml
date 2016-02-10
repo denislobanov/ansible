@@ -9,4 +9,5 @@
   with_items:
     - { src: "nginx.conf", dest: "/etc/nginx/nginx.conf" }
     - { src: "moogi.site", dest: "/etc/nginx/sites-enabled/moogi" }
+    - { src: "proxy.conf", dest: "/etc/nginx/conf.d/proxy.conf" }
 

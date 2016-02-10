@@ -2,7 +2,7 @@
 # Format logical volumes, setup mount points
 
 - name: Creating file systems
-  shell: "mkfs -t {{ partitions_fs }} {{ partitions_opts }} /dev/data/{{ item.name }}"
+  shell: "mkfs -t {{ partitions_fs }} {{ partitions_opts }} /dev/SystemVolume/{{ item.name }}"
   with_items:
     - "{{ partitions }}"
   ignore_errors: yes
@@ -14,7 +14,7 @@
 
 - name: Creating fstab entries
   mount: name={{ item.path }}
-         src=/dev/data/{{ item.name }} 
+         src=/dev/SystemVolume/{{ item.name }} 
          fstype={{ partitions_fs }}
          dump=0
          passno=2
@@ -24,7 +24,7 @@
 
 - name: Mounting
   mount: name={{ item.path }}
-         src=/dev/data/{{ item.name }} 
+         src=/dev/SystemVolume/{{ item.name }} 
          fstype={{ partitions_fs }}
          state=mounted
   with_items:

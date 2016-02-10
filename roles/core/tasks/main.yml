@@ -8,7 +8,7 @@
 - name: Copying resources
   copy: src=/opt/mindmaps/resources/
         dest=/opt/mindmaps/resources/
-        owner=mindmaps
-        group=mindmaps
+        owner=root
+        group=root
         force=no
         follow=no

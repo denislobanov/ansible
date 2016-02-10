@@ -16,7 +16,7 @@
 
 - name: Setting up LVM volumes
   lvol: lv={{ item.name }} 
-        vg=data
+        vg=SystemVolume
         size={{ item.size }}
         state=present
   with_items:

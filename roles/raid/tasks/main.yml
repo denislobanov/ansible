@@ -9,7 +9,6 @@
       - "dmsetup"
       - "lvm2"
 
-- include: bcache.yml
 - include: lvm.yml
 - include: fs.yml
 

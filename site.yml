@@ -2,11 +2,9 @@
 # Production run
 
 - name: Running common - updates
-  hosts: holloway
-  remote_user: denis
-  sudo: yes
+  hosts: new-servers
+  remote_user: root
 
   roles:
-    - finalise
-
+    - common
 

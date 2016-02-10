@@ -1,15 +1,15 @@
 ---
 
-wipe_bcache: true
+wipe_bcache: false
 bcache_backing: /dev/md0
 bcache_cache: /dev/disk/by-partlabel/bcache
 
-lvm_pv: /dev/bcache0
+lvm_pv: /dev/md0
 partitions_fs: jfs
 partitions_opts: "-q"
 partitions:
-  - { name: "static_content", path: "/srv/static_content", size: 3T }
-  - { name: "postgres", path: "/var/lib/postgres", size: 1T }
+  - { name: "static_content", path: "/srv/static_content", size: 32G }
+  - { name: "postgres", path: "/var/lib/postgres", size: 256G }
 
 deploy_moogi: true
 moogi_branch: development
