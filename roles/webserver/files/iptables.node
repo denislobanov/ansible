@@ -29,7 +29,7 @@ COMMIT
 
 ## host ssh
 -A INPUT -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j sshguard
--A INPUT -p tcp -m tcp --dport 8080 -m conntrack --ctstate NEW -j ACCEPT
+-A INPUT -p tcp -m tcp -s 10.10.10.0/24 --dport 8080 -m conntrack --ctstate NEW -j ACCEPT
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 -A INPUT -m conntrack --ctstate INVALID -j DROP
 
