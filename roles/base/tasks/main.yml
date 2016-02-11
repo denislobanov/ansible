@@ -1,19 +1,14 @@
 ---
-# Common install for host systems
+# Base install for all systems
 
 - include: install.yml
 - include: java.yml
 - include: users.yml
 
-- name: Copying iptables rules
-  template: src=iptables.rules dest=/etc/iptables/rules.v4
-  notify: apply iptables
-
 - name: Configuring logrotate
   copy: src=iptables.logrotate dest=/etc/logrotate.d/iptables
 
 - name: Configuring sshd
-  template: src=sshd_config dest=/etc/ssh/sshd_config
+  file: src=sshd_config dest=/etc/ssh/sshd_config
   tags: sshd
   notify: restart sshd
-

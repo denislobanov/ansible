@@ -1,12 +1,13 @@
 ---
-# Moogi & Moogi analytics
 
-- name: Deploying Moogi
-  hosts: web-servers
+- name: Deploying gateway servers
+  hosts: webserver-gateway
   remote_user: denis
-  become: yes
-  become_user: root
-  roles:
-    - raid
-    - webserver
+  become: true
+  roles: [partitions, webserver]
 
+- name: Deploying node servers
+  hosts: webserver-nodes
+  remote_user: denis
+  become: true
+  roles: [webserver]

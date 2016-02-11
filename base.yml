@@ -1,0 +1,6 @@
+---
+
+- name: Base install
+  hosts: new-machines
+  remote_user: root
+  roles: [base]

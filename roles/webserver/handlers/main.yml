@@ -9,3 +9,8 @@
 - name: restart nfs-kernel-server
   service: name=nfs-kernel-server state=restarted
 
+- name: apply iptables
+  action: shell /sbin/iptables-restore < /etc/iptables/rules.v4
+
+- name: restart nginx
+  service: name=nginx state=restarted

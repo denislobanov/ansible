@@ -1,42 +1,14 @@
 ---
-# Set up web server for Moogi
-- include_vars: db.yml
-- include: nfs.yml
+
+# Gateway machines run NGINX & NFS
 - include: nginx.yml
+  when: web_gateway is defined and web_gateway == true
 
-- name: Installing Dependencies
-  apt: name={{ item }}
-       update_cache=no
-       state=latest
-  with_items:
-    - "postgresql"
-    - "postgresql-client"
-    - "tomcat8"
-    - "tomcat8-common"
-    - "python-psycopg2"
-  notify: restart postgres
+- include: nfs.yml
+  when: web_gateway is defined and web_gateway == true
 
-- name: Setting up default postgres user
-  become_user: postgres
-  postgresql_user: db=postgres
-                   name=postgres
-                   password={{ postgres_pw }}
-                   encrypted=true
-                   state=present
+- include: postgres.yml
+  when: web_gateway is defined and web_gateway == true
 
-- name: Adding Moogi User
-  become_user: postgres
-  postgresql_user: db=postgres
-                   name=moogi
-                   password={{ moogi_pw }}
-                   encrypted=true
-                   state=present
-
-- name: Adding Moogi DB
-  become_user: postgres
-  postgresql_db: name=moogi
-                 owner=moogi
-                 login_user=postgres
-                 login_password={{ postgres_pw }}
-                 state=present
-
+# All machines run an instance of moogi
+- include: iptables.yml

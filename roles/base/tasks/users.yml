@@ -3,27 +3,27 @@
 - include_vars: users.yml
 
 - name: Adding user groups
-  group: name={{ item.name}}
+  group: name={{item.name}}
          state=present
          system=yes
   with_items:
-    - "{{ srv_users }}"
+    - "{{srv_users}}"
 
 - name: Adding users
-  user: name={{ item.name }}
-        password={{ item.password }}
+  user: name={{item.name}}
+        password={{item.password}}
         state=present
-        group={{ item.name }}
+        group={{item.name}}
         groups="sudo"
         system=yes
   with_items:
-    - "{{ srv_users }}"
+    - "{{srv_users}}"
 
 - name: Ensuring ssh is allowed
-  authorized_key: user={{ item.name }} 
-                  key={{ item.key }} 
+  authorized_key: user={{item.name}} 
+                  key={{item.key}} 
                   state=present
   with_items:
-    - "{{ srv_users }}"
+    - "{{srv_users}}"
 
 

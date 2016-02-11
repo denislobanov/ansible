@@ -1,0 +1,40 @@
+---
+- include_vars: db.yml
+
+- name: Installing Dependencies
+  apt: name={{item}} update_cache=no state=latest
+  with_items:
+    - "postgresql"
+    - "postgresql-client"
+    - "tomcat8"
+    - "tomcat8-common"
+    - "python-psycopg2"
+  notify: restart postgres
+
+- name: Setting up default postgres user
+  become_user: postgres
+  postgresql_user: db=postgres
+                   name=postgres
+                   password={{postgres_pw}}
+                   encrypted=true
+                   state=present
+
+- name: Adding Moogi User
+  become_user: postgres
+  postgresql_user: db=postgres
+                   name=moogi
+                   password={{moogi_pw}}
+                   encrypted=true
+                   state=present
+
+- name: Adding Moogi DB
+  become_user: postgres
+  postgresql_db: name=moogi
+                 owner=moogi
+                 login_user=postgres
+                 login_password={{postgres_pw}}
+                 state=present
+
+- name: Updating config
+  file: src=pg_hba.conf dest=/etc/postgresql/9.4/main/pg_hba.conf
+  notify: restart postgres

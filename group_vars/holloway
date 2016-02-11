@@ -1,2 +1,0 @@
-root_pw: "{{ host_root_pw }}"
-denis_pw: "{{ host_denis_pw }}"

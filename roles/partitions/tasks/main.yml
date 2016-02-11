@@ -1,0 +1,9 @@
+---
+
+# The following variable must be defined per server/group
+# lvm_pv: 
+# lvm_group
+# lvm_volumes:
+#   - {name, size, fs, opts, mount}
+- include: lvm.yml
+- include: fs.yml

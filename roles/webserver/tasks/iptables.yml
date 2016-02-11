@@ -1,0 +1,12 @@
+---
+
+- name: Copying Gateway iptables rules
+  file: src=iptables.gateway dest=/etc/iptables/rules.v4
+  notify: apply iptables
+  when: web_gateway is defined and web_gateway == true
+
+- name: Copying Node iptables rules
+  file: src=iptables.node dest=/etc/iptables/rules.v4
+  notify: apply iptables
+  when: web_gateway is not defined or web_gateway == false
+

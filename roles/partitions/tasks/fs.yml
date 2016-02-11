@@ -1,0 +1,31 @@
+---
+# Format logical volumes, setup mount points
+
+- name: Running mkfs on logical volumes
+  shell: "mkfs -t {{item.fs}} {{item.opts}} /dev/{{lvm_group}}/{{item.name}}"
+  with_items:
+    - "{{lvm_volumes}}"
+  ignore_errors: yes
+
+- name: Creating mount points
+  file: path={{item.mount}} state=directory
+  with_items:
+    - "{{lvm_volumes}}"
+
+- name: Creating fstab entries
+  mount: name={{item.mount}}
+         src=/dev/{{lvm_group}}/{{item.name}} 
+         fstype={{item.fs}}
+         dump=0
+         passno=2
+         state=present
+  with_items:
+    - "{{lvm_volumes}}"
+
+- name: Mounting
+  mount: name={{item.mount}}
+         src=/dev/{{lvm_group}}/{{item.name}} 
+         fstype={{item.fs}}
+         state=mounted
+  with_items:
+    - "{{lvm_volumes}}"

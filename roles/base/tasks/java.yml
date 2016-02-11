@@ -24,4 +24,3 @@
 - name: Set default Java version
   apt: name="oracle-java8-set-default"
        state=latest
-

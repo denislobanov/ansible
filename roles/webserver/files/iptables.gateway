@@ -1,0 +1,57 @@
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+COMMIT
+
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+:TCP - [0:0]
+:UDP - [0:0]
+
+## log and drop
+:logdrop - [0:0]
+-A logdrop -m limit --limit 5/m --limit-burst 10 -j LOG --log-prefix "iptables deny: " --log-level 7
+-A logdrop -j DROP
+
+## loopback
+-A INPUT -i lo -j ACCEPT
+-A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
+
+## sshguard
+:sshguard - [0:0]
+-A sshguard -m recent --name sshbf --rttl --update --rsource --hitcount 3 --seconds 10 -j logdrop
+-A sshguard -m recent --name sshbf --rttl --update --rsource --hitcount 4 --seconds 180 -j logdrop
+-A sshguard -m recent --name sshbf --set -j ACCEPT
+
+## ssh
+-A INPUT -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j sshguard
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+
+## nfs
+-A INPUT -p tcp -m tcp --dport 2049 -j ACCEPT
+-A INPUT -p udp -m udp --dport 2049 -j ACCEPT
+
+## nginx
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+
+## postgres
+-A INPUT -p tcp -m tcp -s 10.10.10.0/24 --dport 5432 -j ACCEPT
+
+# allow ping
+-A INPUT -p icmp -m icmp --icmp-type 8 -m conntrack --ctstate NEW -j ACCEPT
+
+# icmp control
+-A INPUT -p udp -m conntrack --ctstate NEW -j UDP
+-A INPUT -p tcp --syn -m conntrack --ctstate NEW -j TCP
+-A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable
+-A INPUT -p tcp -j REJECT --reject-with tcp-rst
+
+# reject all others, maybe drop?
+-A INPUT -j REJECT --reject-with icmp-proto-unreachable
+COMMIT
