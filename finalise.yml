@@ -5,6 +5,6 @@
   remote_user: denis
   become: true
   vars:
-    root_pw: host_root_pw
-    denis_pw: host_denis_pw
+    root_pw: "{{host_root_pw}}"
+    denis_pw: "{{host_denis_pw}}"
   roles: [finalise]
