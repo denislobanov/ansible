@@ -1,8 +1,8 @@
 # Template used to create this container: /usr/share/lxc/templates/lxc-debian
 # Parameters passed to the template:
 # For additional config options, please look at lxc.container.conf(5)
-lxc.rootfs = /dev/lxc/{{ container_name }}
-lxc.utsname = {{ container_name }}
+lxc.rootfs = /dev/lxc/{{container_name}}
+lxc.utsname = {{container_name}}
 lxc.arch = amd64
 
 # Common configuration
@@ -11,20 +11,19 @@ lxc.include = /usr/share/lxc/config/debian.common.conf
 ## Network setup
 lxc.network.type = veth
 lxc.network.name = eth0
-lxc.network.link = br{{ container_id }}
+lxc.network.link = br{{container_id}}
 lxc.network.flags = up
-lxc.network.hwaddr = 00:ff:00:00:00:{{ container_id }}{{ container_id }}
-lxc.network.ipv4 = 172.{{ container_subnet }}.0.2/30
-lxc.network.gateway = 172.{{ container_subnet }}.0.1
+lxc.network.hwaddr = 00:ff:00:00:00:{{container_id}}{{container_id}}
+lxc.network.ipv4 = 172.{{container_subnet}}.0.2/30
+lxc.network.ipv4.gateway = 172.{{container_subnet}}.0.1
 
 # Container specific configuration
-lxc.mount = /var/lib/lxc/{{ container_name }}/fstab
+lxc.mount = /var/lib/lxc/{{container_name}}/fstab
 lxc.autodev = 1
 lxc.kmsg = 0
 lxc.pts = 1024
-lxc.hook.autodev=/var/lib/lxc/{{ container_name }}/autodev
+lxc.hook.autodev=/var/lib/lxc/{{container_name}}/autodev
 
 # Autostart
 lxc.start.auto = 1
 lxc.start.delay = 30
-

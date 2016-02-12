@@ -12,3 +12,4 @@
 
 # All machines run an instance of moogi
 - include: iptables.yml
+- include: tomcat.yml

@@ -1,0 +1,9 @@
+---
+# Initial rollout is needed to configure dependencies
+- include_vars: repositories.yml
+
+  # Install Dependencies
+- include: spark.yml
+
+- name: Adding mindmaps directories
+  file: path=/opt/mindmaps/bin state=directory
