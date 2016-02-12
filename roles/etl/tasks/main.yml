@@ -11,6 +11,7 @@
 - name: Getting DATASTAX repository key
   get_url: url=https://debian.datastax.com/debian/repo_key 
            dest=/root/datastax.key
+           validate_certs=False
 
 - name: Adding DATASTAX repository key
   command: "apt-key add /root/datastax.key"
@@ -24,35 +25,10 @@
         update_cache=yes
         state=present
 
-- name: Configuring Cassandra
-  copy: src=cassandra-env.sh
-        dest=/etc/cassandra/cassandra-env.sh
-        mode=0644
-        owner=root
-        group=root
-  notify: restart cassandra
-
-- name: Installing deploy key
-  copy: content={{ etl_key }}
-        dest=/home/denis/.ssh/{{ etl_key_name }}
-        mode=0600
-        owner=denis
-        group=denis
-
-- name: Cloning ETL repository
-  git: repo={{ etl_repository_url }}
-       dest={{ etl_clone_dest }}
-       clone=yes
-       version={{ etl_branch }}
-       accept_hostkey=yes
-       key_file=/home/denis/.ssh/{{ etl_key_name }}
-       bare=no
-       force=yes
-  async: 0
-  poll: 20
+- name: Copying Cassandra Schema
+  copy: src=ObjectCreationSchema.cql dest=/root/ObjectCreationSchema.cql
 
 - name: Importing Cassandra Schema
-  command: "cqlsh -f {{ etl_clone_dest }}/src/main/resources/schema/ObjectCreationSchema.cql"
+  command: "cqlsh -f /root/ObjectCreationSchema.cql"
   notify: restart cassandra
   ignore_errors: true
-

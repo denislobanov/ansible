@@ -52,4 +52,3 @@
 - name: Configuring bcache
   copy: src=bcache.conf
         dest=/etc/tmpfiles.d/bcache.conf
-

@@ -4,18 +4,16 @@
 - name: Configuring host
   hosts: dtfm-host
   remote_user: denis
-  sudo: yes
-  roles: [partitions, lxc]
-  
-- name: Building ETL Container
-  hosts: etl-clx01
-  remote_user: denis
   become: yes
-  roles: [etl]
+  roles: [partitions, lxc]
+
+- name: Building ETL Container
+  hosts: [etl-clx01,etl-clx02]
+  remote_user: root
+  roles: [base, etl]
 
 - name: Bulding ML Containers
   hosts: ml-clx01
-  remote_user: denis
-  become: yes
-  roles: [ml]
+  remote_user: root
+  roles: [base, ml]
 

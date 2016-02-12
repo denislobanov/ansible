@@ -9,5 +9,5 @@
 - name: restart lxc
   shell: lxc-stop -n {{ item.name }}; lxc-start -n {{ item.name }} -d
   with_items:
-    - "{{ containers }}"
+    - "{{ lvm_volumes }}"
 

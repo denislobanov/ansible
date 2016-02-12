@@ -5,18 +5,15 @@
 :POSTROUTING ACCEPT [0:0]
 
 ## containers routing
-{% for c in containers %}
+{% for c in lvm_volumes %}
 
-# {{ c.name }} container
--A POSTROUTING -s 172.{{ 16 + loop.index0 }}.0.0/30 -o eth0 -j MASQUERADE
--A PREROUTING -i eth0 -p tcp --dport {{ 8022 + loop.index0 }} -j DNAT --to-destination 172.{{ 16 + loop.index0 }}.0.2:22
-{% if c.name == 'development' %}
--A PREROUTING -i eth0 -p tcp --dport 8080  -j DNAT --to-destination 172.{{ 16 + loop.index0 }}.0.2:80
-{% elif c.name == 'production' %}
--A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to-destination 172.{{ 16 + loop.index0 }}.0.2:80
-{% elif c.name == 'etl_development' or c.name == 'etl_production' %}
--A PREROUTING -i eth0 -p tcp --dport 8444 -j DNAT --to-destination 172.{{ 16 + loop.index0 }}.0.2:8444
--A PREROUTING -i eth0 -p tcp --dport {{ 8200 + loop.index0 }} -j DNAT --to-destination 172.{{ 16 + loop.index0 }}.0.2:2000
+# {{c.name}} container
+-A POSTROUTING -s 172.{{16 + loop.index0}}.0.0/30 -o eth0 -j MASQUERADE
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}2022 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:22
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}8080 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:80
+{% if 'etl' in c.name %}
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}8444 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:8444
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}2000 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:2000
 {% endif %}
 {% endfor %}
 COMMIT
@@ -46,24 +43,21 @@ COMMIT
 -A sshguard -m recent --name sshbf --set -j ACCEPT
 
 ## bridge forward outbound
-{% for c in containers %}
+{% for c in lvm_volumes %}
 -A br_outbound -i br{{ loop.index0 }} -j ACCEPT
 {% endfor %}
 
 ## route lxc inbound
-{% for c in containers %}
-### {{ c.name }}
--A lxc_forwards -d 172.{{ 16 + loop.index0 }}.0.2 -p tcp -m tcp --dport {{ 8022 + loop.index0 }} -m conntrack --ctstate NEW -j sshguard
-{% if c.name == 'development' %}
--A lxc_forwards -d 172.{{ 16 + loop.index0 }}.0.2 -p tcp -m tcp --dport 8080 -m conntrack --ctstate NEW -j ACCEPT
-{% elif c.name == 'production' %}
--A lxc_forwards -d 172.{{ 16 + loop.index0 }}.0.2 -p tcp -m tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
-{% elif c.name == 'etl_development' or c.name == 'etl_production' %}
--A lxc_forwards -d 172.{{ 16 + loop.index0 }}.0.2 -p tcp -m tcp --dport 8444 -m conntrack --ctstate NEW -j ACCEPT
--A lxc_forwards -d 172.{{ 16 + loop.index0 }}.0.2 -p tcp -m tcp --dport {{ 8200 + loop.index0 }} -m conntrack --ctstate NEW -j sshguard
+{% for c in lvm_volumes %}
+### {{c.name}}
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j sshguard
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 8080 -m conntrack --ctstate NEW -j ACCEPT
+{% if 'etl' in c.name %}
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 8444 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 2000 -m conntrack --ctstate NEW -j sshguard
 {% endif %}
-{% endfor %}
 
+{% endfor %}
 ## lxc forwards
 -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 -A FORWARD -j lxc_forwards

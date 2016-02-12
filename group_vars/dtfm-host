@@ -3,3 +3,4 @@ lvm_group: SystemVolume
 lvm_volumes:
   - { name: "etl-clx01", size: "64G", fs: "jfs", opts: "-q", mount: "/var/lib/lxc/etl-clx01/rootfs"}
   - { name: "ml-clx01", size: "512G", fs: "jfs", opts: "-q", mount: "/var/lib/lxc/ml-clx01/rootfs"}
+  - { name: "etl-clx02", size: "64G", fs: "jfs", opts: "-q", mount: "/var/lib/lxc/etl-clx02/rootfs"}

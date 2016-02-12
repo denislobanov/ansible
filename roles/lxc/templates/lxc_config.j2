@@ -1,7 +1,7 @@
 # Template used to create this container: /usr/share/lxc/templates/lxc-debian
 # Parameters passed to the template:
 # For additional config options, please look at lxc.container.conf(5)
-lxc.rootfs = /dev/lxc/{{container_name}}
+lxc.rootfs = /dev/{{lvm_group}}/{{container_name}}
 lxc.utsname = {{container_name}}
 lxc.arch = amd64
 

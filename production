@@ -11,8 +11,9 @@
 10.10.20.108
 
 [dtfm-containers]
-etl-clx1 ansible_host=10.10.20.108 ansible_port=8022
-ml-clx1 ansible_host=10.10.20.108 ansible_port=8023
+etl-clx01 ansible_host=10.10.20.108 ansible_port=12022
+ml-clx01 ansible_host=10.10.20.108 ansible_port=22022
+etl-clx02 ansible_host=10.10.20.108 ansible_port=32022
 
 [etl-containers:children]
 dtfm-host
