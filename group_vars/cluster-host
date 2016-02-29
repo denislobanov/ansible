@@ -1,0 +1,5 @@
+lvm_pv: /dev/md0
+lvm_group: SystemVolume
+lvm_volumes:
+  - { name: "tgm-clx01", size: "128G", fs: "jfs", opts: "-q", mount: "/var/lib/lxc/tgm-clx01/rootfs"}
+  - { name: "tgm-clx02", size: "128G", fs: "jfs", opts: "-q", mount: "/var/lib/lxc/tgm-clx02/rootfs"}

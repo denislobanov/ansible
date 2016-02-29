@@ -1,7 +1,7 @@
 ---
 
 - name: Finalising servers
-  hosts: [webserver-gateway, webserver-nodes, dtfm-host]
+  hosts: [webserver-gateway, webserver-nodes, dtfm-host, test-cluster-host]
   remote_user: denis
   become: true
   vars:

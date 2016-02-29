@@ -14,6 +14,29 @@
 {% if 'etl' in c.name %}
 -A PREROUTING -i eth0 -p tcp --dport {{loop.index}}8444 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:8444
 -A PREROUTING -i eth0 -p tcp --dport {{loop.index}}2000 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:2000
+{% elif 'tgm' in c.name %}
+## cassandra
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}7000 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:7000
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}7001 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:7001
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}7199 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:7199
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}9042 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:9042
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}9160 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:9160
+
+## zookeeper
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}2181 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:2181
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}2888 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:2888
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}3888 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:3888
+
+## storm
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}3772 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:3772
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}3773 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:3773
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}6627 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:6627
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}6700 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:6700
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}6701 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:6701
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}6702 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:6702
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}6703 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:6703
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}8000 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:8000
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index}}8081 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:8081
 {% endif %}
 {% endfor %}
 COMMIT
@@ -55,6 +78,24 @@ COMMIT
 {% if 'etl' in c.name %}
 -A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 8444 -m conntrack --ctstate NEW -j ACCEPT
 -A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 2000 -m conntrack --ctstate NEW -j sshguard
+{% elif 'tgm' in c.name %}
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 7000 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 7001 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 7199 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 9042 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 9160 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 2181 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 2888 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 3888 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 3772 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 3773 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 6627 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 6700 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 6701 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 6702 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 6703 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 8000 -m conntrack --ctstate NEW -j ACCEPT
+-A lxc_forwards -d 172.{{16 + loop.index0}}.0.2 -p tcp -m tcp --dport 8081 -m conntrack --ctstate NEW -j ACCEPT
 {% endif %}
 
 {% endfor %}

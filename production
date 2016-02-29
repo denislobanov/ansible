@@ -17,3 +17,9 @@ etl-clx02 ansible_host=10.10.20.108 ansible_port=32022
 
 [etl-containers:children]
 dtfm-host
+
+[cluster-host]
+
+
+[graph-manager-containers]
+tgm-clx01 ansible_host= ansible_port=12022

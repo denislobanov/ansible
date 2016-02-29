@@ -1,0 +1,14 @@
+---
+# Set up for production and test cluster
+
+- name: Graph Manager Host Configuration
+  hosts: [test-cluster-host]
+  remote_user: denis
+  become: yes
+  roles: [partitions, lxc]
+
+- name: Building Graph Manager Containers
+  hosts: [tgm-clx01]
+  remote_user: root
+  roles: [base]
+
