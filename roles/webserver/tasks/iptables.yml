@@ -9,4 +9,3 @@
   file: src=iptables.node dest=/etc/iptables/rules.v4
   notify: apply iptables
   when: web_gateway is not defined or web_gateway == false
-

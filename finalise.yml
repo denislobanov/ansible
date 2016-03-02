@@ -1,7 +1,7 @@
 ---
 
 - name: Finalising servers
-  hosts: [webserver-gateway, webserver-nodes, dtfm-host, test-cluster-host]
+  hosts: [webserver-gateway, webserver-nodes, dtfm-host, cluster-host]
   remote_user: denis
   become: true
   vars:
@@ -10,7 +10,7 @@
   roles: [finalise]
 
 - name: Finalising containers
-  hosts: dtfm-containers
+  hosts: [dtfm-containers, graph-manager-containers]
   remote_user: denis
   become: true
   vars:
