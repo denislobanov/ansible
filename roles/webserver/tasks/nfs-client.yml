@@ -1,0 +1,14 @@
+---
+# Set up NFS mount
+
+- name: Adding NFS mount
+  mount: name=/srv/static_content
+         src={{groups['webserver-gateway'][0]}}
+         fstype=nfs4
+         opts=rsize=8192,wsize=8192,timeo=14,_netdev
+         dump=0
+         passno=0
+         state=present
+
+- name: Mounting NFS
+  mount: name=/srv/static_content state=mounted

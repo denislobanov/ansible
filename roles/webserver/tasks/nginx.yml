@@ -5,11 +5,11 @@
   apt: name=nginx update_cache=yes state=latest
 
 - name: Copying NGINX configuration files
-  copy: src={{item.src}} dest={{item.dest}} owner=root group=root
+  copy: src=nginx/{{item.src}} dest={{item.dest}} owner=root group=root
   with_items:
-    - {src: "moogi.site", dest: "/etc/nginx/sites-enabled/moogi"}
+    - {src: "nginx.conf", dest: "/etc/nginx/nginx.conf"}
     - {src: "proxy.conf", dest: "/etc/nginx/conf.d/proxy.conf"}
 
-- name: Creating main configuration
-  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf owner=root group=root
+- name: Creating site configuration
+  template: src=moogi.site.j2 dest=/etc/nginx/sites-enabled/moogi owner=root group=root
   notify: restart nginx

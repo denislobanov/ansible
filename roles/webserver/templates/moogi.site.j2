@@ -1,3 +1,11 @@
+upstream backend {
+    least_conn;
+    {% for c in groups['webserver-nodes'] %}
+    server {{c}}:8080;
+    {% endfor %}
+    server localhost:8080;
+}
+
 server {
     listen 80;
 

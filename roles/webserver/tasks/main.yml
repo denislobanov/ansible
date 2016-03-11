@@ -1,14 +1,18 @@
 ---
 
-# Gateway machines run NGINX & NFS
+# Gateway machines run NGINX, NFS & PostgreSQL
 - include: nginx.yml
   when: web_gateway is defined and web_gateway == true
 
-- include: nfs.yml
+- include: nfs-host.yml
   when: web_gateway is defined and web_gateway == true
 
 - include: postgres.yml
   when: web_gateway is defined and web_gateway == true
+
+# Nodes run nfs client
+- include: nfs-client.yml
+  when: web_gateway is defined and web_gateway == false
 
 # All machines run an instance of moogi
 - include: iptables.yml
