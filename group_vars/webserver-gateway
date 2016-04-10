@@ -1,8 +1,8 @@
-web_gateway: true
-
 lvm_pv: /dev/md0
 lvm_group: SystemVolume
 lvm_volumes:
-  - { name: "postgres", size: "256G", fs: "jfs", opts: "-q", mount: "/var/lib/postgresql"}
-  - { name: "static_content", size: "32G", fs: "jfs", opts: "-q", mount: "/srv/static_content"}
+  - { name: "nginx-clx01", size: "64G", fs: "ext4", opts: "", mount: "/var/lib/lxc/nginx-clx01/rootfs"}
+  - { name: "psql-clx01", size: "32G", fs: "jfs", opts: "-q", mount: "/var/lib/lxc/psql-clx01/rootfs"}
+  - { name: "psql-clx02", size: "16G", fs: "jfs", opts: "-q", mount: "/var/lib/lxc/psql-clx02/rootfs"}
+
 

@@ -18,3 +18,4 @@
     - "jfsutils"
     - "iptables-persistent"
     - "unattended-upgrades"
+    - "dstat"

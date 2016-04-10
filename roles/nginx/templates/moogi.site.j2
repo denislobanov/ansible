@@ -1,7 +1,7 @@
 upstream backend {
     least_conn;
-    {% for c in groups['webserver-nodes'] %}
-    server {{c}}:8080;
+    {% for c in groups['webserver-node-hosts'] %}
+    server {{c}}:18080;
     {% endfor %}
     server localhost:8080;
 }

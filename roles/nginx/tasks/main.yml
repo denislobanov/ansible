@@ -1,0 +1,6 @@
+---
+
+# Gateway machines run NGINX & NFS (for static content)
+- include: nginx.yml
+- include: nfs-host.yml
+

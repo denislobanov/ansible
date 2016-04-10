@@ -1,13 +1,36 @@
 ---
 
-- name: Deploying gateway servers
-  hosts: webserver-gateway
+- name: Configuring gateway hosts
+  hosts: webserver-gateway-host
   remote_user: denis
   become: true
-  roles: [partitions, webserver]
+  roles: [partitions, lxc]
 
-- name: Deploying node servers
+- name: Deploying Containers on gateway hosts
+  hosts: [db-containers, nfs-containers]
+  remote_user: root
+  roles: [base]
+
+- name: Configuring DB containers
+  hosts: db-containers
+  remote_user: denis
+  become: true
+  roles: [database]
+
+- name: Configuring static content containers
+  hosts: static-content-containers
+  remote_user: denis
+  become: true
+  roles [nginx, nfs]
+
+- name: Deploying node hosts
   hosts: webserver-nodes
   remote_user: denis
   become: true
-  roles: [webserver]
+  roles: [partitions, lxc]
+
+- name: Configuring node webserver containers
+  hosts: tomcat-containers
+  remote_user: denis
+  become: true
+  roles [webserver]
