@@ -37,22 +37,23 @@
 -A PREROUTING -i eth0 -p tcp --dport {{loop.index}}6703 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:6703
 -A PREROUTING -i eth0 -p tcp --dport {{loop.index}}8000 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:8000
 -A PREROUTING -i eth0 -p tcp --dport {{loop.index}}8081 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:8081
-{ elif 'nginx' in c.name %}
+{% elif 'nginx' in c.name %}
 {% if loop.index0 == 0 %}
 -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:80
 -A PREROUTING -i eth0 -p tcp --dport 443 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:443
 -A PREROUTING -i eth0 -p tcp --dport 2049 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:2049
 -A PREROUTING -i eth0 -p udp --dport 2049 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:2049
 {% else %}
--A PREROUTING -i eth0 -p tcp --dport {{loop.index}}0080 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:80
--A PREROUTING -i eth0 -p tcp --dport {{loop.index}}0443 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:443
--A PREROUTING -i eth0 -p tcp --dport {{loop.index}}2049 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:2049
--A PREROUTING -i eth0 -p udp --dport {{loop.index}}2049 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:2049
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index0}}0080 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:80
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index0}}0443 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:443
+-A PREROUTING -i eth0 -p tcp --dport {{loop.index0}}2049 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:2049
+-A PREROUTING -i eth0 -p udp --dport {{loop.index0}}2049 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:2049
 {% endif %}
 {% elif 'psql' in c.name %}
 -A PREROUTING -i eth0 -p tcp --dport {{loop.index}}5432 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:5432
-{ elif 'tomcat' in c.name %}
+{% elif 'tomcat' in c.name %}
 -A PREROUTING -i eth0 -p tcp --dport {{loop.index}}8080 -j DNAT --to-destination 172.{{16 + loop.index0}}.0.2:80
+{% endif %}
 {% endfor %}
 COMMIT
 

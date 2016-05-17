@@ -5,7 +5,7 @@
   apt: name=nginx update_cache=yes state=latest
 
 - name: Copying NGINX configuration files
-  copy: src=nginx/{{item.src}} dest={{item.dest}} owner=root group=root
+  copy: src={{item.src}} dest={{item.dest}} owner=root group=root
   with_items:
     - {src: "nginx.conf", dest: "/etc/nginx/nginx.conf"}
     - {src: "proxy.conf", dest: "/etc/nginx/conf.d/proxy.conf"}

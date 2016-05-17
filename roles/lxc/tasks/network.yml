@@ -7,6 +7,9 @@
 - name: Configuring host forwarding
   copy: src=sysctl.conf dest=/etc/sysctl.conf
 
+- name: Enabling host forwarding
+  shell: echo 1 >  /proc/sys/net/ipv4/ip_forward
+
 - name: Updating iptables
   template: src=iptables.j2 dest=/etc/iptables/rules.v4
   notify: apply iptables

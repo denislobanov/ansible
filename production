@@ -4,19 +4,19 @@
 10.10.10.120
 
 [nginx-containers]
-nginx-clx01 ansible_host=10.10.10.120 ansible_port=32022
+nginx-clx01 ansible_host=10.10.10.120 ansible_port=42022
 
 [db-containers]
-psql-clx01 ansible_host=10.10.10.120 ansible_port=12022
-psql-clx02 ansible_host=10.10.10.120 ansible_port=22022
+psql-clx01 ansible_host=10.10.10.120 ansible_port=22022
+psql-clx02 ansible_host=10.10.10.120 ansible_port=32022
 
 [webserver-node-hosts]
 10.10.10.119
 10.10.10.116
 
 [tomcat-containers]
-tomcat-clx01 ansible_host=10.10.10.119 ansible_port=12022
-tomcat-clx02 ansible_host=10.10.10.116 ansible_port=12022
+tomcat-clx01 ansible_host=10.10.10.116 ansible_port=12022
+tomcat-clx02 ansible_host=10.10.10.119 ansible_port=12022
 
 [dtfm-host]
 10.10.20.108
