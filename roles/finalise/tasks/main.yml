@@ -6,7 +6,9 @@
         update_password=always
 
 - name: Setting user password
-  user: name=denis
-        password={{ denis_pw }}
+  user: name={{item.name}}
+        password={{item.pass}}
         update_password=always
+  with_items:
+    - "{{additional_users}}"
 

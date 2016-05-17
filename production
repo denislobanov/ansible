@@ -35,3 +35,5 @@ dtfm-host
 [graph-manager-containers]
 tgm-clx01 ansible_host=10.10.10.100 ansible_port=12022
 tgm-clx02 ansible_host=10.10.10.100 ansible_port=22022
+tgm-clx03 ansible_host=10.10.10.120 ansible_port=12022
+tgm-clx04 ansible_host=10.10.10.100 ansible_port=32022
