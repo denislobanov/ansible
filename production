@@ -37,3 +37,10 @@ tgm-clx01 ansible_host=10.10.10.100 ansible_port=12022
 tgm-clx02 ansible_host=10.10.10.100 ansible_port=22022
 tgm-clx03 ansible_host=10.10.10.120 ansible_port=12022
 tgm-clx04 ansible_host=10.10.10.100 ansible_port=32022
+
+[production-cluster]
+10.10.10.102
+10.10.10.118
+10.10.10.103
+10.10.10.101
+10.10.10.100
