@@ -10,7 +10,7 @@
   #~ roles: [finalise]
 
 - name: Finalising containers
-  hosts: [dtfm-containers, graph-manager-containers, nginx-containers, tomcat-containers]
+  hosts: [nexus]
   remote_user: denis
   become: true
   vars:

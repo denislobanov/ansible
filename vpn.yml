@@ -1,0 +1,8 @@
+---
+
+- name: Setting up OpenVPN Servers
+  hosts: vpn 
+  remote_user: denis
+  become: true
+  roles: [openvpn]
+

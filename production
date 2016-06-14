@@ -46,11 +46,14 @@ tgm-clx04 ansible_host=10.10.10.100 ansible_port=32022
 10.10.10.100
 
 [nexus]
-nexus-clx01 ansible_host=
+nexus-clx01 ansible_host=10.0.1.96
 
 [dns]
-dns-clx01 ansible_host=
+dns-clx01 ansible_host=10.0.1.96
 
 [vpn]
-vpn-clx01 ansible_host=
+vpn-clx01 ansible_host=10.0.1.96
+
+[lxd]
+net-plxcz1503094 ansible_host=10.10.20.100
 

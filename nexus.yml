@@ -2,6 +2,7 @@
 
 - name: Setting up Nexus Servers
   hosts: nexus
-  remote_user: root
-  roles: [base, nexus]
+  remote_user: denis
+  become: true
+  roles: [nexus]
 

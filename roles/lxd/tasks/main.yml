@@ -1,0 +1,6 @@
+---
+# Install and configure LXD
+
+- include: lxd.yml
+- include: bridge.yml
+

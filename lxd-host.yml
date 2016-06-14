@@ -1,0 +1,8 @@
+---
+
+- name: Setting up LXD hosts
+  hosts: lxd
+  remote_user: denis
+  become: true
+  roles: [lxd]
+

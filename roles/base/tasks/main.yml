@@ -8,14 +8,6 @@
 - name: Configuring logrotate
   copy: src=iptables.logrotate dest=/etc/logrotate.d/iptables
 
-- name: Configuring /etc/hosts
-  lineinfile: dest=/etc/hosts
-              state=present
-              line=127.0.0.1	{{inventory_hostname}}.internal.mindmaps.io	{{inventory_hostname}}
-
-- name: Configuring hostname
-  hostname: name={{inventory_hostname_short}}
-
 - name: Base iptables rules (not applying)
   template: src=iptables.j2 dest=/etc/iptables/rules.v4
 

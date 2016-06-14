@@ -1,0 +1,17 @@
+---
+# configure etherenet bridge for LXD
+
+- name: Installing bridge utils
+  apt: name=bridge-utils update_cache=no state=present
+
+- name: Creating ethernet bridge for LXD
+  command: brctl addbr lxdbr0
+  ignore_errors: yes
+
+- name: Bringing bridge up
+  command: ip link set up dev lxdbr0
+
+- name: Adding ethernet port to bridge
+  command: brct addif eth0
+  ignore_errors: yes
+

@@ -1,0 +1,22 @@
+---
+# Install and configure LXD
+
+- include_vars: pass.yml
+- include_vars: config.yml
+
+- name: Adding LXD repository
+  apt_repository: repo='deb http://ppa.launchpad.net/ubuntu-lxc/lxd-stable/ubuntu trusty main'
+                  state=present
+                  filename='lxd'
+
+- name: Adding Repository key
+  apt_key: keyserver=keyserver.ubuntu.com id=7635B973 state=present
+
+- name: Installing LXD
+  apt: name=lxd update_cache=yes state=present
+
+- name: Configuring LXD
+  command: "lxc config set {{item}}"
+  with_items:
+    - "{{ lxd_config }}"
+

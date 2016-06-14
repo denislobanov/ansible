@@ -1,31 +1,8 @@
 ---
-# Finalise server details - host & container passwords
-- name: Setting root password
-  user: name=root
-        password={{ root_pw }}
-        update_password=always
+# Finalise server details
+- include: hostname.yml
+- include: users.yml
 
-- name: Adding user groups
-  group: name={{item.name}}
-         state=present
-         system=yes
-  with_items:
-    - "{{additional_users}}"
+- name: Applying iptables
+  action: shell /sbin/iptables-restore < /etc/iptables/rules.v4
 
-- name: Setting user password
-  user: name={{item.name}}
-        password={{item.pass}}
-        update_password=always
-        group={{item.name}}
-        groups={{item.groups}}
-        system=yes
-        state=present
-  with_items:
-    - "{{additional_users}}"
-
-- name: Adding ssh access
-  authorized_key: user={{item.name}}
-                  key={{item.key}}
-                  state=present
-  with_items:
-    - "{{additional_users}}"
