@@ -1,0 +1,7 @@
+---
+
+- name: Setting up Nexus Servers
+  hosts: nexus
+  remote_user: root
+  roles: [base, nexus]
+

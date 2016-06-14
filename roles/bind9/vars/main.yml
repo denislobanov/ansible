@@ -1,0 +1,9 @@
+---
+
+bind9_files: 
+    - "db.internal.mindmaps.io"
+    - "named.conf"
+    - "named.conf.default-zones"
+    - "named.conf.local"
+    - "named.conf.options"
+             

@@ -1,30 +1,16 @@
 ---
-# Set up network ancillary server
-
-- name: Installing BIND9
-  apt: name=bind9
-       update_cache=yes
-       state=latest
-
-- name: Configuring BIND9
-  copy: src={{ item  }} dest=/etc/bind/
-  with_items: 
-      - "{{ bind9_files }}"
-  notify: restart bind9
 
 - name: Removing previous install
-  command: "{{ item }}"
+  file: path={{item}} state=absent
   with_items:
-      - "rm /opt/nexus"
-      - "rm -rf /opt/{{ nexus_version }}"
-      - "rm -rf /opt/sonatype-work"
-      - "rm -rf /srv/nexus"
-  ignore_errors: yes
+      - "/opt/nexus"
+      - "/opt/{{ nexus_version }}"
+      - "/opt/sonatype-work"
 
 - name: Installing Nexus
   unarchive: src={{ nexus_download_url }}
              dest=/opt/
-             copy=yes
+             copy=no
 
 - name: Cleaning up
   file: path=/opt/sonatype-work
