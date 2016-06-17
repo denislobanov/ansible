@@ -2,5 +2,6 @@
 
 - name: Base install
   hosts: new-machines
-  remote_user: root
+  remote_user: denis
+  become: true
   roles: [base]

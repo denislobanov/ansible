@@ -10,7 +10,7 @@
                   filename='lxd'
 
 - name: Adding Repository key
-  apt_key: keyserver=keyserver.ubuntu.com id=7635B973 state=present
+  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=7635B973 state=present
 
 - name: Installing LXD
   apt: name=lxd update_cache=yes state=present

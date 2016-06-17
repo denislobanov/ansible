@@ -55,5 +55,4 @@ dns-clx01 ansible_host=10.0.1.96
 vpn-clx01 ansible_host=10.0.1.96
 
 [lxd]
-net-plxcz1503094 ansible_host=10.10.20.100
-
+web-plxcz1446029g ansible_host=10.10.10.116

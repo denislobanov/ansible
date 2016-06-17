@@ -12,6 +12,18 @@
   command: ip link set up dev lxdbr0
 
 - name: Adding ethernet port to bridge
-  command: brct addif eth0
+  command: brctl addif lxdbr0 eth0
   ignore_errors: yes
+
+- name: Creating persistent configuration
+  blockinfile:
+    dest: /etc/network/interfaces
+    insertafter: "# LXC bridge interfaces"
+    state: present
+    block: |
+      auto lxdbr0
+      iface lxdbr0 inet dhcp
+        bridge_ports eth0
+        bridge_fd 0
+        bridge_maxwait 0 
 

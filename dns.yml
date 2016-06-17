@@ -1,7 +1,7 @@
 ---
 
 - name: Setting up BIND9 DNS Servers
-  hosts: nexus
+  hosts: dns
   remote_user: denis
   become: true
   roles: [bind9]
