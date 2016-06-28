@@ -1,0 +1,14 @@
+---
+
+- name: Setting up Kubernetes Master Nodes
+  hosts: kube-master
+  remote_user: denis
+  become: true
+  roles: [kubernetes]
+
+- name: Setting up Kubernetes Minion Nodes
+  hosts: kube-minion
+  remote_user: denis
+  become: true
+  roles: [kubernetes]
+

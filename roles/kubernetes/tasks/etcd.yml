@@ -1,0 +1,24 @@
+---
+# Install etcd
+
+- name: Creating directories
+  file: path={{item}} state=directory
+  with_items:
+    - "{{etcd_extract_path}}"
+    - "/opt/bin"
+
+- name: Downloading etcd
+  unarchive: src={{etcd_download_url}}
+             dest={{etcd_extract_path}}
+             copy=no
+
+- name: Installing binaries
+  command: cp {{etcd_extracted_path}}/{{item}} /opt/bin/{{item}}
+  with_items:
+    - "etcd"
+    - "etcdctl"
+      #    - "etcd-migrate"
+
+- name: Copying config
+  template: src=etcd.j2 dest=/etc/default/etcd
+

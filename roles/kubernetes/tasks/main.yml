@@ -1,0 +1,9 @@
+---
+
+#- include: etcd.yml
+#  when: kube_master is defined and kube_master == true
+
+- include: kubernetes-master.yml
+  when: kube_master is defined and kube_master == true
+
+

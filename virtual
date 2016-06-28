@@ -1,0 +1,7 @@
+[new-machines]
+10.0.1.103
+
+[kube-master]
+10.0.1.103
+
+[kube-minion]
