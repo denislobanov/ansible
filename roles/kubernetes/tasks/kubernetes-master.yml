@@ -7,27 +7,14 @@
     - "{{kubernetes_extract_path}}"
     - "/opt/bin"
 
-  #- name: Downloading Kubernetes
-  #unarchive: src={{kubernetes_download_url}}
-  #           dest={{kubernetes_extract_path}}
-  #           copy=no
+- name: Downloading Kubernetes
+  unarchive: src={{kubernetes_download_url}}
+             dest={{kubernetes_extract_path}}
+             copy=no
 
 - name: Extracting server binaries
   command: tar zxvf {{kubernetes_extract_path}}/kubernetes/server/kubernetes-server-linux-amd64.tar.gz
            chdir={{kubernetes_extract_path}}
-
-  #- name: Checking out Kubernetes sources from git
-  #  git: repo=https://github.com/GoogleCloudPlatform/kubernetes.git dest=/tmp/kubernetes
-  #
-  #- name: Building Kubernetes
-  # command: make
-  # args:
-  #   chdir: /tmp/kubernetes/kubernetes
-  #
-  #- name: Extracting built tar
-  # unarchive: src=/tmp/kubernetes/kubernetes/_output/release-tars/kubernetes-server-linux-amd64.tar.gz
-  #             dest=/tmp/kubernetes/extracted/
-  #             copy=no
 
 - name: Installing binaries
   command: cp {{kubernetes_extract_path}}/kubernetes/server/bin/{{item}} /opt/bin/
@@ -35,31 +22,25 @@
     - "kube-apiserver"
     - "kube-controller-manager"
     - "kube-scheduler"
-    - "kubecfg"
     - "kubectl"
-    - "kubernetes"
+    - "hyperkube"
 
 - name: Copying init_conf
   command: cp {{kubernetes_extract_path}}/kubernetes/cluster/ubuntu/master/init_conf/{{item}} /etc/init/
   with_items:
     - "kube-apiserver.conf"
     - "kube-controller-manager.conf"
-    - "kube-kube-scheduler.conf "
+    - "kube-scheduler.conf "
     - "etcd.conf"
 
-- name: Copying startup scripts
-  command: cp {{kubernetes_extract_path}}/kubernetes/cluster/ubuntu/master/initd_scripts/{{item}} /etc/init.d/
-  with_items:
-    - "kube-apiserver"
-    - "kube-controller-manager"
-    - "kube-kube-scheduler"
-    - "etcd"
+- name: Reloading systemd configuration
+  command: systemctl daemon-reload
 
 - name: Copying configuration
   template: src={{item.src}} dest=/etc/default/{{item.dest}}
   with_items:
-    - {src="kube-apiserver", dest="kube-apiserver"}
-    - {src="kube-controller-manager.j2", dest="kube-controller-manager"}
-    - {src="kube-scheduler.j2", dest="kube-scheduler"}
+    - {src: "kube-apiserver.j2", dest: "kube-apiserver"}
+    - {src: "kube-controller-manager.j2", dest: "kube-controller-manager"}
+    - {src: "kube-scheduler.j2", dest: "kube-scheduler"}
   notify: restart docker
 

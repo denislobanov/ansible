@@ -1,9 +1,13 @@
 ---
 
-#- include: etcd.yml
-#  when: kube_master is defined and kube_master == true
+- include: docker.yml
 
+- include: etcd.yml
+  when: kube_master is defined and kube_master == true
+  
 - include: kubernetes-master.yml
   when: kube_master is defined and kube_master == true
 
+- include: kubernetes-minion.yml
+  when: kube_master is not defined or kube_master == false
 

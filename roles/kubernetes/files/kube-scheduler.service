@@ -1,0 +1,10 @@
+[Unit]
+Description=Kubernetes Scheduler
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+Type=notify
+ExecStart=/opt/bin/kube-scheduler
+
+[Install]
+WantedBy=multi-user.target

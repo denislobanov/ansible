@@ -1,0 +1,10 @@
+[Unit]
+Description=Kubernetes Controller Manager
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+Type=notify
+ExecStart=/opt/bin/kube-controller-manager
+
+[Install]
+WantedBy=multi-user.target

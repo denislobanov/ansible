@@ -1,7 +1,8 @@
 ---
 # Install docker
 
-- include_vars: config.yml
+- name: some hack
+  apt: name=apt-transport-https state=present
 
 - name: Adding Docker repository
   apt_repository: repo='deb https://apt.dockerproject.org/repo debian-jessie main'
@@ -17,6 +18,4 @@
       - "apt-transport-https"
       - "ca-certificates"
       - "docker-engine"
-  notify: start docker
-
 

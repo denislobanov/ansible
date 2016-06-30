@@ -1,0 +1,10 @@
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+Type=notify
+ExecStart=/opt/bin/kubelet
+
+[Install]
+WantedBy=multi-user.target

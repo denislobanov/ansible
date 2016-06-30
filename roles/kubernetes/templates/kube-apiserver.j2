@@ -1,0 +1,7 @@
+KUBE_APISERVER_OPTS="--address=0.0.0.0 \
+--port=8080 \
+--etcd_servers=http://{{ansible_eth0["ipv4"]["address"]}}:4001 \
+--portal_net=10.10.10.0/24 \
+--allow_privileged=false \
+--kubelet_port=10250 \
+--v=0"

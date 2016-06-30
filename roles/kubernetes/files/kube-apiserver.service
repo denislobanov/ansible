@@ -1,0 +1,10 @@
+[Unit]
+Description=Kubernetes API server
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+Type=notify
+ExecStart=/opt/bin/kube-apiserver
+
+[Install]
+WantedBy=multi-user.target

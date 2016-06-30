@@ -1,0 +1,10 @@
+[Unit]
+Description=Kubernetes Proxy
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+Type=notify
+ExecStart=/opt/bin/kube-proxy
+
+[Install]
+WantedBy=multi-user.target
