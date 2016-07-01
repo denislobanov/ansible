@@ -3,7 +3,11 @@
 etcd_download_url: https://github.com/coreos/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz
 etcd_extract_path: /tmp/etcd
 etcd_extracted_path: /tmp/etcd/etcd-v2.3.7-linux-amd64
+etcd_conf_path: /etc/etcd
+etcd_data_path: /var/lib/etcd
 
 kubernetes_download_url: https://github.com/kubernetes/kubernetes/releases/download/v1.3.0-beta.2/kubernetes.tar.gz
+kubernetes_contrib_url: https://github.com/kubernetes/contrib/archive/0.7.0.tar.gz
 kubernetes_extract_path: /tmp/kubernetes/
+kube_conf_path: /etc/kubernetes
 

@@ -1,2 +1,7 @@
-KUBE_PROXY_OPTS="--etcd_servers=http://{{groups['kube-master'][0]}}:4001 \
---v=0"
+###
+# kubernetes proxy config
+
+# default config should be adequate
+
+# Add your own!
+KUBE_PROXY_ARGS="--etcd_servers=http://{{groups['kube-master'][0]}}:4001"

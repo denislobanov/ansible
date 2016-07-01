@@ -1,46 +1,22 @@
 ---
 # Build kubernetes from source
 
-- name: Creating directories
-  file: path={{item}} state=directory
+- name: Installing systemd services
+  copy: src={{item}} dest=/lib/systemd/system/{{item}}
   with_items:
-    - "{{kubernetes_extract_path}}"
-    - "/opt/bin"
-
-- name: Downloading Kubernetes
-  unarchive: src={{kubernetes_download_url}}
-             dest={{kubernetes_extract_path}}
-             copy=no
-
-- name: Extracting server binaries
-  command: tar zxvf {{kubernetes_extract_path}}/kubernetes/server/kubernetes-server-linux-amd64.tar.gz
-           chdir={{kubernetes_extract_path}}
-
-- name: Installing binaries
-  command: cp {{kubernetes_extract_path}}/kubernetes/server/bin/{{item}} /opt/bin/
-  with_items:
-    - "kube-apiserver"
-    - "kube-controller-manager"
-    - "kube-scheduler"
-    - "kubectl"
-    - "hyperkube"
-
-- name: Copying init_conf
-  command: cp {{kubernetes_extract_path}}/kubernetes/cluster/ubuntu/master/init_conf/{{item}} /etc/init/
-  with_items:
-    - "kube-apiserver.conf"
-    - "kube-controller-manager.conf"
-    - "kube-scheduler.conf "
-    - "etcd.conf"
-
-- name: Reloading systemd configuration
-  command: systemctl daemon-reload
+    - "kube-apiserver.service"
+    - "kube-controller-manager.service"
+    - "kube-scheduler.service"
+    - "etcd.service"
+  notify: reload systemd
 
 - name: Copying configuration
-  template: src={{item.src}} dest=/etc/default/{{item.dest}}
+  template: src={{item.src}} dest={{kube_conf_path}}/{{item.dest}} owner=kube group=kube
   with_items:
     - {src: "kube-apiserver.j2", dest: "kube-apiserver"}
     - {src: "kube-controller-manager.j2", dest: "kube-controller-manager"}
     - {src: "kube-scheduler.j2", dest: "kube-scheduler"}
-  notify: restart docker
+  notify:
+    - enable kube-master
+    - restart docker
 

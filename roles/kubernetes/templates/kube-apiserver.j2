@@ -1,7 +1,26 @@
-KUBE_APISERVER_OPTS="--address=0.0.0.0 \
---port=8080 \
---etcd_servers=http://{{ansible_eth0["ipv4"]["address"]}}:4001 \
---portal_net=10.10.10.0/24 \
---allow_privileged=false \
---kubelet_port=10250 \
---v=0"
+###
+# kubernetes system config
+#
+# The following values are used to configure the kube-apiserver
+#
+
+# The address on the local server to listen to.
+KUBE_API_ADDRESS="--address=0.0.0.0"
+
+# The port on the local server to listen on.
+KUBE_API_PORT="--port=8080"
+
+# Port minions listen on
+KUBELET_PORT="--kubelet-port=10250"
+
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS="--etcd-servers=http://{{ansible_eth0["ipv4"]["address"]}}:4001"
+
+# Address range to use for services
+KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range={{ansible_eth0["ipv4"]["network"]}}"
+
+# default admission control policies
+KUBE_ADMISSION_CONTROL="--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota"
+
+# Add your own!
+KUBE_API_ARGS="--v=0"

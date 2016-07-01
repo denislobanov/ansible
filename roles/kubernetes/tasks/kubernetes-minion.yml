@@ -1,56 +1,25 @@
 ---
 # Build kubernetes from source
 
-- name: Creating directories
-  file: path={{item}} state=directory
-  with_items:
-    - "{{kubernetes_extract_path}}"
-    - "/opt/bin"
-
-- name: Downloading Kubernetes
-  unarchive: src={{kubernetes_download_url}}
-             dest={{kubernetes_extract_path}}
-             copy=no
-
-- name: Extracting server binaries
-  command: tar zxvf {{kubernetes_extract_path}}/kubernetes/server/kubernetes-server-linux-amd64.tar.gz
-           chdir={{kubernetes_extract_path}}
-
 - name: Installing binaries
-  command: cp {{kubernetes_extract_path}}/kubernetes/server/bin/{{item}} /opt/bin/
-  with_items:
-    - "kubelet"
-    - "kube-proxy"
-    - "kubectl"
-    - "hyperkube"
-
-- name: Copying init_conf
-  command: cp {{kubernetes_extract_path}}/kubernetes/cluster/ubuntu/minion/init_conf/{{item}} /etc/init/
-  with_items:
-    - "kubelet.conf"
-    - "kube-proxy.conf"
-
-- name: Patching init confs
-  lineinfile: dest=/etc/init/{{item.dest}} regexp={{item.regexp}} line={{item.line}}
-  with_items:
-    - {dest: 'kubelet.conf', regexp: 'start on started etcd', line: 'start on started docker'}
-    - {dest: 'kubelet.conf', regexp: 'stop on stopping etcd', line: 'stop on stopping docker'}
-    - {dest: 'kube-proxy.conf', regexp: 'start on started etcd', line: 'start on started docker'}
-    - {dest: 'kube-proxy.conf', regexp: 'stop on stopping etcd', line: 'stop on stopping docker'}
-
-- name: Copying startup scripts
-  command: cp {{kubernetes_extract_path}}/kubernetes/cluster/ubuntu/minion/init_scripts/{{item}} /etc/init.d/
+  command: cp {{kubernetes_extract_path}}/kubernetes/server/bin/{{item}} /usr/local/bin/
   with_items:
     - "kubelet"
     - "kube-proxy"
 
-- name: Reloading systemd configuration
-  command: systemctl daemon-reload
+- name: Installing systemd services
+  copy: src={{item}} dest=/lib/systemd/system/{{item}}
+  with_items:
+    - "kubelet.service"
+    - "kube-proxy.service"
+  notify: reload systemd
 
 - name: Copying configuration
-  template: src={{item.src}} dest=/etc/default/{{item.dest}}
+  template: src={{item.src}} dest={{kube_conf_path}}/{{item.dest}} owner=kube group=kube
   with_items:
     - {src: "kubelet.j2", dest: "kubelet"}
     - {src: "kube-proxy.j2", dest: "kube-proxy"}
-  notify: restart docker
+  notify:
+    - enable kube-master
+    - restart docker
 
