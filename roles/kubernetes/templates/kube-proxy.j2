@@ -4,4 +4,9 @@
 # default config should be adequate
 
 # Add your own!
-KUBE_PROXY_ARGS="--etcd_servers=http://{{groups['kube-master'][0]}}:4001"
+KUBE_PROXY_ARGS="--kubeconfig={{kube_conf_path}}/proxy.kubeconfig"
+
+KUBE_PROXY_OPTS="$KUBE_LOGTOSTDERR \
+                 $KUBE_LOG_LEVEL \
+                 $KUBE_MASTER \
+                 $KUBE_PROXY_ARGS"

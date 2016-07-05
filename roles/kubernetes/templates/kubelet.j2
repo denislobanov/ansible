@@ -14,4 +14,13 @@ KUBELET_HOSTNAME="--hostname-override={{inventory_hostname_short}}"
 KUBELET_API_SERVER="--api-servers=http://127.0.0.1:8080"
 
 # Add your own!
-KUBELET_ARGS="--etcd_servers=http://{{groups['kube-master'][0]}}:4001 --enable_server=true"
+KUBELET_ARGS="--kubeconfig={{kube_conf_path}}/kubelet.kubeconfig --config={{kube_conf_path}}/kubelet.kubeconfig"
+
+KUBELET_OPTS="$KUBE_LOGTOSTDERR \
+              $KUBE_LOG_LEVEL \
+              $KUBELET_API_SERVER \
+              $KUBELET_ADDRESS \
+              $KUBELET_PORT \
+              $KUBELET_HOSTNAME \
+              $KUBE_ALLOW_PRIV \
+              $KUBELET_ARGS"

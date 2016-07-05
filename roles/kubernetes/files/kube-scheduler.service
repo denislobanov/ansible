@@ -4,7 +4,7 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 
 [Service]
 EnvironmentFile=-/etc/kubernetes/config
-EnvironmentFile=-/etc/kubernetes/scheduler
+EnvironmentFile=-/etc/kubernetes/kube-scheduler
 User=kube
 ExecStart=/usr/local/bin/kube-scheduler \
 	    $KUBE_LOGTOSTDERR \

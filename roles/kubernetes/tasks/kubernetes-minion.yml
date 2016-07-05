@@ -19,7 +19,9 @@
   with_items:
     - {src: "kubelet.j2", dest: "kubelet"}
     - {src: "kube-proxy.j2", dest: "kube-proxy"}
+    - {src: "kubelet.kubeconfig.j2", dest: "kubelet.kubeconfig"}
+    - {src: "proxy.kubeconfig.j2", dest: "proxy.kubeconfig"}
   notify:
-    - enable kube-master
+    - enable kube-minion
     - restart docker
 

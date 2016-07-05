@@ -2,6 +2,12 @@
 # kubernetes scheduler config
 
 # default config should be adequate
+. {{kube_conf_path}}/config
 
 # Add your own!
 KUBE_SCHEDULER_ARGS="--address=0.0.0.0"
+
+KUBE_SCHEDULER_OPTS="$KUBE_LOGTOSTDERR \
+                     $KUBE_LOG_LEVEL \
+                     $KUBE_MASTER \
+                     $KUBE_SCHEDULER_ARGS"

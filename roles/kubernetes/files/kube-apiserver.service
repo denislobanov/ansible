@@ -6,7 +6,7 @@ After=etcd.service
 
 [Service]
 EnvironmentFile=-/etc/kubernetes/config
-EnvironmentFile=-/etc/kubernetes/apiserver
+EnvironmentFile=-/etc/kubernetes/kube-apiserver
 User=kube
 ExecStart=/usr/local/bin/kube-apiserver \
 	    $KUBE_LOGTOSTDERR \

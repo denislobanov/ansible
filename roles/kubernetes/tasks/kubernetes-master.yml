@@ -1,6 +1,15 @@
 ---
 # Build kubernetes from source
 
+- name: Installing binaries
+  command: cp {{kubernetes_extract_path}}/kubernetes/server/bin/{{item}} /usr/local/bin
+  with_items:
+    - "kube-apiserver"
+    - "kube-controller-manager"
+    - "kube-scheduler"
+    - "kubectl"
+    - "hyperkube"
+
 - name: Installing systemd services
   copy: src={{item}} dest=/lib/systemd/system/{{item}}
   with_items:

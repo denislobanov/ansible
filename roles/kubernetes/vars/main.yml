@@ -10,4 +10,6 @@ kubernetes_download_url: https://github.com/kubernetes/kubernetes/releases/downl
 kubernetes_contrib_url: https://github.com/kubernetes/contrib/archive/0.7.0.tar.gz
 kubernetes_extract_path: /tmp/kubernetes/
 kube_conf_path: /etc/kubernetes
+kubelet_data_path: /var/lib/kube
 
+cluster_name: kubernetes_cluster
