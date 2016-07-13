@@ -1,7 +1,7 @@
 [new-machines]
 
-[webserver-gateway-host]
-10.10.10.120
+[webserver-gateway]
+web-plx19016 ansible_host=10.10.10.120
 
 [nginx-containers]
 nginx-clx01 ansible_host=10.10.10.120 ansible_port=42022
@@ -10,16 +10,16 @@ nginx-clx01 ansible_host=10.10.10.120 ansible_port=42022
 psql-clx01 ansible_host=10.10.10.120 ansible_port=22022
 psql-clx02 ansible_host=10.10.10.120 ansible_port=32022
 
-[webserver-node-hosts]
-10.10.10.119
-10.10.10.116
+[webserver-node]
+web-plxcz150300ga ansible_host=10.10.10.119
+web-plxcz1446029g ansible_host=10.10.10.116
 
 [tomcat-containers]
 tomcat-clx01 ansible_host=10.10.10.116 ansible_port=12022
 tomcat-clx02 ansible_host=10.10.10.119 ansible_port=12022
 
 [dtfm-host]
-10.10.20.108
+dtfm-plx19017 ansible_host=10.10.20.108
 
 [dtfm-containers]
 etl-clx01 ansible_host=10.10.20.108 ansible_port=12022
@@ -30,7 +30,7 @@ etl-clx02 ansible_host=10.10.20.108 ansible_port=32022
 dtfm-host
 
 [cluster-host]
-10.10.10.100
+core-tlx123 ansible_host=10.10.10.100
 
 [graph-manager-containers]
 tgm-clx01 ansible_host=10.10.10.100 ansible_port=12022
@@ -39,20 +39,15 @@ tgm-clx03 ansible_host=10.10.10.120 ansible_port=12022
 tgm-clx04 ansible_host=10.10.10.100 ansible_port=32022
 
 [production-cluster]
-10.10.10.102
-10.10.10.118
-10.10.10.103
-10.10.10.101
-10.10.10.100
-
-[nexus]
-nexus-clx01 ansible_host=10.0.1.96
-
-[dns]
-dns-clx01 ansible_host=10.0.1.96
-
-[vpn]
-vpn-clx01 ansible_host=10.0.1.96
+gm-plx133 ansible_host=10.10.10.102
+core-plx121 ansible_host=10.10.10.118
+core-plx122 ansible_host=10.10.10.103
+core-plx124 ansible_host=10.10.10.101
+core-tlx123 ansible_host=10.10.10.100
 
 [lxd]
 web-plxcz1446029g ansible_host=10.10.10.116
+
+[net-ancillary]
+net-plxcz1503094 ansible_host=10.10.20.100
+

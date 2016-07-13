@@ -1,16 +1,16 @@
 ---
 
-#~ - name: Finalising servers
-  #~ hosts: [webserver-gateway, webserver-nodes, dtfm-host, cluster-host, production-cluster]
-  #~ remote_user: denis
-  #~ become: true
-  #~ vars:
-    #~ root_pw: "{{host_root_pw}}"
-    #~ additional_users: "{{host_users}}"
-  #~ roles: [finalise]
+- name: Finalising servers
+  hosts: [webserver-gateway, webserver-node, dtfm-host, cluster-host, production-cluster, net-ancillary]
+  remote_user: denis
+  become: true
+  vars:
+    root_pw: "{{host_root_pw}}"
+    additional_users: "{{host_users}}"
+  roles: [finalise]
 
 - name: Finalising containers
-  hosts: [nexus]
+  hosts: [nginx-containers, db-containers, dtfm-containers]
   remote_user: denis
   become: true
   vars:
