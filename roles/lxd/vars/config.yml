@@ -1,8 +1,0 @@
----
-
-lxd_config:
-  - "core.https_address 0.0.0.0"
-  - "core.trust_password {{lxd_trust_password}}"
-  - "storage.lvm_vg_name {{lvm_group}}"
-  - "images.compression_algorithm xz"
-

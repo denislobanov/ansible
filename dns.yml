@@ -1,8 +1,0 @@
----
-
-- name: Setting up BIND9 DNS Servers
-  hosts: dns
-  remote_user: denis
-  become: true
-  roles: [bind9]
-

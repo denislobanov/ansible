@@ -1,5 +1,0 @@
----
-
-- name: start nexus
-  service: name=nexus state=started
-

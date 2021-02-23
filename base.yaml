@@ -4,4 +4,5 @@
   hosts: new-machines
   remote_user: root
   become: false
+  ansible_connection: paramiko
   roles: [base]

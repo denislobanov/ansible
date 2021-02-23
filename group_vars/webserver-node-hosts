@@ -1,5 +1,0 @@
-lvm_pv: /dev/md0
-lvm_group: SystemVolume
-lvm_volumes:
-  - { name: "tomcat-clx01", size: "32G", fs: "jfs", opts: "-q", mount: "/var/lib/lxc/tomcat-clx01/rootfs"}
-  - { name: "tomcat-clx02", size: "32G", fs: "jfs", opts: "-q", mount: "/var/lib/lxc/tomcat-clx02/rootfs"}

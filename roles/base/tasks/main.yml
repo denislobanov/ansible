@@ -2,7 +2,6 @@
 # Base install for all systems
 
 - include: install.yml
-- include: java.yml
 - include: users.yml
 
 - name: Configuring logrotate

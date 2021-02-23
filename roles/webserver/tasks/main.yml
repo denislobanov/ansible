@@ -1,4 +1,0 @@
----
-
-# Nodes run nfs client & Tomcat
-- include: tomcat.yml
